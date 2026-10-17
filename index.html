@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="es" class="dark h-full bg-neutral-950 text-neutral-100 font-sans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GUS FLOW</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons & Font Awesome -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Font Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            flowBg: '#0e0e11',
+            flowSidebar: '#131317',
+            flowCard: '#1a1a20',
+            flowHover: '#262630',
+            flowPill: '#2a2a35',
+            flowPillActive: '#e2e2e9',
+            flowAccent: '#a8c7fa',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos personalizados para emular exactamente GUS FLOW */
+    body {
+      background-color: #0b0b0e;
+      color: #e3e2e6;
+      user-select: none;
+    }
+    
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #131317;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a35;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3e3e4f;
+    }
+
+    .flow-btn {
+      transition: all 0.15s ease-in-out;
+    }
+    .flow-btn:active {
+      transform: scale(0.97);
+    }
+    
+    .glow-effect {
+      box-shadow: 0 0 25px -5px rgba(168, 199, 250, 0.15);
+    }
+  </style>
+</head>
+<body class="h-full flex overflow-hidden antialiased">
+
+  <!-- ================= SIDEBAR LATERAL ================= -->
+  <aside id="sidebar" class="w-64 bg-flowSidebar border-r border-neutral-800/60 flex flex-col justify-between transition-all duration-300 z-20 shrink-0">
+    <div class="p-3 space-y-6">
+      
+      <!-- LOGO / HEADER -->
+      <div class="flex items-center justify-between px-3 py-2">
+        <div class="flex items-center gap-3 cursor-pointer">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
+            <span class="font-bold text-white text-xs tracking-tighter">GUS</span>
+          </div>
+          <span class="font-medium tracking-tight text-lg text-neutral-100 sidebar-text">GUS <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 font-normal border border-blue-500/30">FLOW</span></span>
+        </div>
+      </div>
+
+      <!-- BOTÓN "TODOS LOS ELEMENTOS" -->
+      <button onclick="switchTab('elementos')" id="nav-elementos" class="w-full flex items-center gap-3 px-4 py-3 bg-neutral-800/80 hover:bg-neutral-700/80 text-white rounded-2xl font-medium text-sm transition-all shadow-sm">
+        <i class="ph-bold ph-squares-four text-xl text-neutral-200"></i>
+        <span class="sidebar-text truncate">Todos los elementos...</span>
+      </button>
+
+      <!-- MENÚ PRINCIPAL SECCIONES -->
+      <nav class="space-y-1">
+        <button onclick="switchTab('personajes')" id="nav-personajes" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+          <i class="ph-bold ph-user text-xl text-neutral-400"></i>
+          <span class="sidebar-text">Personajes</span>
+        </button>
+
+        <button onclick="switchTab('escenas')" id="nav-escenas" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+          <i class="ph-bold ph-film-strip text-xl text-neutral-400"></i>
+          <span class="sidebar-text">Escenas</span>
+        </button>
+
+        <button onclick="switchTab('herramientas')" id="nav-herramientas" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+          <i class="ph-bold ph-dots-nine text-xl text-neutral-400"></i>
+          <span class="sidebar-text">Herramientas</span>
+        </button>
+
+        <!-- AGENTE / HERRAMIENTA TEXTO A AUDIO (TTS) DEBAJO DE HERRAMIENTAS -->
+        <button onclick="switchTab('tts')" id="nav-tts" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+          <i class="ph-bold ph-speaker-high text-xl text-purple-400"></i>
+          <span class="sidebar-text flex items-center gap-2">
+            <span>Texto a Audio</span>
+            <span class="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded-full border border-purple-500/30 font-bold">TTS</span>
+          </span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- PIE DEL SIDEBAR -->
+    <div class="p-3 border-t border-neutral-800/60 space-y-1">
+      <button onclick="switchTab('papelera')" id="nav-papelera" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-400 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+        <i class="ph-bold ph-trash text-xl"></i>
+        <span class="sidebar-text">Papelera</span>
+      </button>
+
+      <button id="toggleSidebar" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-400 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
+        <i class="ph-bold ph-sidebar text-xl" id="sidebarIcon"></i>
+        <span class="sidebar-text">Contraer</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= ÁREA DE CONTENIDO PRINCIPAL ================= -->
+  <main class="flex-1 flex flex-col h-full overflow-hidden bg-flowBg relative">
+    
+    <!-- BARRA SUPERIOR (HEADER) -->
+    <header class="h-16 px-6 border-b border-neutral-800/40 flex items-center justify-between shrink-0 bg-flowBg/80 backdrop-blur">
+      <div class="flex items-center gap-4">
+        <button class="text-neutral-400 hover:text-white text-lg">
+          <i class="ph-bold ph-house"></i>
+        </button>
+        <span class="text-neutral-500">/</span>
+        <span class="text-sm font-medium text-neutral-200" id="currentProjectTitle">GUS FLOW - Proyecto Ilimitado</span>
+        <i class="ph-bold ph-dots-three-vertical text-neutral-400 cursor-pointer hover:text-white"></i>
+      </div>
+
+      <!-- BÚSQUEDA Y USUARIO -->
+      <div class="flex items-center gap-3">
+        <div class="relative hidden sm:block">
+          <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
+          <input type="text" placeholder="Buscar en GUS FLOW..." class="bg-flowCard border border-neutral-800 rounded-full pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-blue-500 w-64 transition-all" />
+        </div>
+
+        <!-- INDICADOR DE AUTO-ACTUALIZACIÓN DE MOTORES -->
+        <div class="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full text-xs text-blue-400 font-medium cursor-pointer hover:bg-blue-500/20 transition" title="Motores auto-actualizados: Omni 1.1 Flash, Veo 3.1, Nano Banana Pro">
+          <i class="ph-bold ph-arrows-clockwise text-blue-400 animate-spin" style="animation-duration: 8s;"></i>
+          <span id="engineUpdateBadge">Motores v3.1 Actualizados</span>
+        </div>
+
+        <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-xs text-emerald-400 font-medium">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>GUS FLOW Unlimited (Sin Restricciones · 0 Créditos)</span>
+        </div>
+
+        <button class="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-300 hover:text-white">
+          <i class="ph-bold ph-gear"></i>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white flex items-center justify-center text-xs font-bold ring-2 ring-neutral-800 cursor-pointer">
+          GUS
+        </div>
+      </div>
+    </header>
+
+    <!-- VIEWPORT DE TRABAJO -->
+    <div class="flex-1 overflow-y-auto p-6 pb-48 relative" id="mainCanvas">
+      
+      <!-- CONTENIDO PESTAÑA ELEMENTOS -->
+      <div id="view-elementos" class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-white tracking-tight">Tus Creaciones en GUS FLOW</h2>
+          <span class="text-xs text-neutral-400" id="itemCount">0 elementos creados hoy</span>
+        </div>
+
+        <!-- GRID DE GENERACIONES -->
+        <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div id="emptyState" class="col-span-full py-20 flex flex-col items-center justify-center text-center space-y-4">
+            <div class="w-20 h-20 rounded-full bg-flowCard border border-neutral-800 flex items-center justify-center text-neutral-600">
+              <i class="ph-bold ph-sparkle text-4xl text-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW</h3>
+              <p class="text-sm text-neutral-500 max-w-md mt-1">Genera Imágenes (Nano Banana 2.1) y Videos (hasta 1 hora y 4K) totalmente <strong>Sin Restricciones</strong> y sin consumir créditos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENIDO PESTAÑA PERSONAJES -->
+      <div id="view-personajes" class="hidden space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-semibold text-white">Consistencia de Personajes (GUS FLOW)</h2>
+            <p class="text-xs text-neutral-400 mt-1">Guarda e identifica rostros iguales para todas tus escenas de video e imagen.</p>
+          </div>
+          <button onclick="nuevoPersonaje()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-xl flex items-center gap-2 flow-btn">
+            <i class="ph-bold ph-plus"></i>
+            <span>Nuevo Personaje</span>
+          </button>
+        </div>
+
+        <div id="personajesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- CONTENIDO PESTAÑA ESCENAS -->
+      <div id="view-escenas" class="hidden space-y-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-semibold text-white">Secuencia de Escenas</h2>
+            <p class="text-xs text-neutral-400 mt-1">Organiza tomas consecutivas para generar un cortometraje o video largo en GUS FLOW.</p>
+          </div>
+        </div>
+        <div class="p-8 bg-flowCard border border-neutral-800 rounded-2xl text-center text-neutral-400 text-sm">
+          Añade tomas desde la barra de generación usando los identificadores de escena.
+        </div>
+      </div>
+
+      <!-- CONTENIDO PESTAÑA HERRAMIENTAS -->
+      <div id="view-herramientas" class="hidden space-y-6">
+        <h2 class="text-xl font-semibold text-white">Herramientas GUS FLOW Studio</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition">
+            <i class="ph-bold ph-arrows-out text-2xl text-blue-400"></i>
+            <h3 class="font-medium text-neutral-200">Upscaler 4K Ultra HD</h3>
+            <p class="text-xs text-neutral-400">Mejora cualquier imagen o video a resolución 4K nativa sin pérdida de nitidez.</p>
+          </div>
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition">
+            <i class="ph-bold ph-scissors text-2xl text-purple-400"></i>
+            <h3 class="font-medium text-neutral-200">Remover Fondo</h3>
+            <p class="text-xs text-neutral-400">Aísla personajes o sujetos en segundos para transparencia.</p>
+          </div>
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="switchTab('tts')">
+            <i class="ph-bold ph-microphone text-2xl text-emerald-400"></i>
+            <h3 class="font-medium text-neutral-200">Agente Texto a Audio Ultra HD</h3>
+            <p class="text-xs text-neutral-400">Convierte texto a audio hiperrealista en todos los idiomas y tipos de voces.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENIDO PESTAÑA TEXTO A AUDIO (TTS) -->
+      <div id="view-tts" class="hidden space-y-6">
+        <div class="flex items-center justify-between border-b border-neutral-800/80 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-semibold text-white">Agente GUS - Texto a Audio Universal</h2>
+              <span class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Multilingüe + Ilimitado</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1">Convierte cualquier texto en habla natural e hiperrealista con voces expresivas en todos los idiomas del mundo.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-neutral-400"><i class="ph-bold ph-waveform text-purple-400"></i> Motor Gemini TTS AI</span>
+          </div>
+        </div>
+
+        <!-- PANEL DE CONFIGURACIÓN Y GENERACIÓN DE AUDIO -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN Y PROMPT DE TEXTO -->
+          <div class="lg:col-span-7 bg-flowCard border border-neutral-800 rounded-3xl p-5 space-y-4 shadow-xl">
+            
+            <!-- TEXTAREA DE ENTRADA -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Texto para sintetizar</label>
+                <span class="text-[10px] text-neutral-500" id="ttsCharCount">0 caracteres</span>
+              </div>
+              <textarea 
+                id="ttsTextInput" 
+                rows="5" 
+                placeholder="Escribe o pega aquí el texto en cualquier idioma (Ej: '¡Hola! Bienvenido a GUS FLOW. ¿En qué puedo ayudarte hoy?')..." 
+                class="w-full bg-neutral-900 border border-neutral-800 rounded-2xl p-3.5 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition resize-none"
+                oninput="document.getElementById('ttsCharCount').innerText = `${this.value.length} caracteres`;"
+              ></textarea>
+            </div>
+
+            <!-- FILTROS DE IDIOMA Y VOZ -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- SELECTOR DE IDIOMA -->
+              <div>
+                <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Idioma / Región</label>
+                <select id="ttsLanguageSelect" onchange="filterTtsVoices()" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                  <option value="es-US" selected>Español (Latinoamérica / EE.UU.)</option>
+                  <option value="es-ES">Español (España)</option>
+                  <option value="en-US">Inglés (EE.UU. - American English)</option>
+                  <option value="en-GB">Inglés (Reino Unido - British)</option>
+                  <option value="pt-BR">Portugués (Brasil)</option>
+                  <option value="fr-FR">Francés (Francia)</option>
+                  <option value="de-DE">Alemán (Alemania)</option>
+                  <option value="it-IT">Italiano (Italia)</option>
+                  <option value="ja-JP">Japonés (Japón)</option>
+                  <option value="ko-KR">Coreano (Corea del Sur)</option>
+                  <option value="zh-CN">Chino (Mandarín)</option>
+                  <option value="ru-RU">Ruso (Rusia)</option>
+                  <option value="ar-EG">Árabe (Egipto)</option>
+                  <option value="hi-IN">Hindi (India)</option>
+                </select>
+              </div>
+
+              <!-- SELECTOR DE MODELO DE VOZ -->
+              <div>
+                <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Voz Generativa</label>
+                <select id="ttsVoiceSelect" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                  <option value="Kore">Kore — Firme, Profesional (Femenina)</option>
+                  <option value="Puck">Puck — Animada, Optimista (Masculina)</option>
+                  <option value="Zephyr">Zephyr — Brillante, Cálida (Femenina)</option>
+                  <option value="Charon">Charon — Informativa, Grave (Masculina)</option>
+                  <option value="Fenrir">Fenrir — Densa, Entusiasta (Masculina)</option>
+                  <option value="Aoede">Aoede — Ligera, Fresca (Femenina)</option>
+                  <option value="Sulafat">Sulafat — Suave, Acogedora (Femenina)</option>
+                  <option value="Algieba">Algieba — Melódica, Tersa (Masculina)</option>
+                  <option value="Zubenelgenubi">Zubenelgenubi — Casual, Cercana (Masculina)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- ESTILO / TONO EMOCIONAL -->
+            <div>
+              <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Estilo y Tono Emocional de la Voz</label>
+              <select id="ttsStyleSelect" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                <option value="Di alegremente y con entusiasmo:">Alegre y Entusiasmado</option>
+                <option value="Di de forma profesional, clara y neutra:">Profesional y Corporativo</option>
+                <option value="Di en un susurro misterioso y cinematográfico:">Cinematográfico / Misterioso</option>
+                <option value="Di con tono dramático y emotivo:">Dramático y Expresivo</option>
+                <option value="Di de forma rápida, energética y moderna:">Publicitario / Alta Energía</option>
+                <option value="Di de forma pausada, relajante y tranquila:">Lofi / Meditación / Documental</option>
+              </select>
+            </div>
+
+            <!-- BOTÓN GENERAR AUDIO -->
+            <button onclick="generateTTSAudio()" id="generateTtsBtn" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium text-xs rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 flow-btn">
+              <i class="ph-bold ph-waveform text-lg"></i>
+              <span>Generar Audio Hiperrealista (0 Créditos)</span>
+            </button>
+          </div>
+
+          <!-- COLUMNA DERECHA: BIBLIOTECA DE AUDIOS GENERADOS -->
+          <div class="lg:col-span-5 bg-flowCard border border-neutral-800 rounded-3xl p-5 space-y-4 shadow-xl flex flex-col">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                <i class="ph-bold ph-playlist text-purple-400"></i>
+                <span>Audios Creados</span>
+              </h3>
+              <span class="text-[10px] text-neutral-400" id="ttsCountDisplay">0 audios</span>
+            </div>
+
+            <div id="ttsHistoryList" class="flex-1 space-y-3 overflow-y-auto max-h-[380px] pr-1">
+              <div id="ttsEmptyState" class="py-12 flex flex-col items-center justify-center text-center space-y-2">
+                <div class="w-12 h-12 rounded-full bg-neutral-900 flex items-center justify-center text-neutral-600">
+                  <i class="ph-bold ph-speaker-none text-2xl text-purple-400/60"></i>
+                </div>
+                <p class="text-xs text-neutral-400">Aún no has generado pistas de audio.</p>
+                <p class="text-[10px] text-neutral-600">Escribe un texto e inicia la síntesis con voz de IA.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CONTENIDO PESTAÑA PAPELERA -->
+      <div id="view-papelera" class="hidden space-y-6">
+        <h2 class="text-xl font-semibold text-white">Papelera</h2>
+        <p class="text-sm text-neutral-500">Los elementos eliminados se mantienen aquí por 30 días.</p>
+      </div>
+
+    </div>
+
+    <!-- ================= BARRA DE GENERACIÓN FLOTANTE ================= -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-30">
+      
+      <!-- CONTENEDOR MODAL / PANEL DE PARÁMETROS -->
+      <div id="configModal" class="mb-3 bg-flowCard/95 border border-neutral-800 backdrop-blur-xl rounded-3xl p-4 shadow-2xl space-y-4 glow-effect transition-all transform origin-bottom duration-200 hidden">
+        
+        <!-- MODOS DE GENERACIÓN -->
+        <div class="grid grid-cols-2 gap-2 p-1 bg-neutral-900/80 rounded-2xl">
+          <div class="grid grid-cols-2 gap-1">
+            <button onclick="setMode('imagen')" id="mode-imagen" class="mode-tab flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all bg-neutral-800 text-white shadow-sm">
+              <i class="ph-bold ph-image text-sm"></i>
+              <span>Imagen</span>
+            </button>
+            <button onclick="setMode('video')" id="mode-video" class="mode-tab flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all text-neutral-400 hover:text-white">
+              <i class="ph-bold ph-video-camera text-sm"></i>
+              <span>Video</span>
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-1">
+            <button onclick="setMode('fotogramas')" id="mode-fotogramas" class="mode-tab flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all text-neutral-400 hover:text-white">
+              <i class="ph-bold ph-frame-corners text-sm"></i>
+              <span>Fotogramas</span>
+            </button>
+            <button onclick="setMode('ingredientes')" id="mode-ingredientes" class="mode-tab flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all text-neutral-400 hover:text-white">
+              <i class="ph-bold ph-cooking-pot text-sm"></i>
+              <span>Ingredientes</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- RELACIÓN DE ASPECTO -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+          <button onclick="setAspect('16:9')" id="aspect-16:9" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+            <span class="w-3.5 h-2 border border-current rounded-sm"></span>
+            <span>16:9</span>
+          </button>
+          <button onclick="setAspect('4:3')" id="aspect-4:3" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+            <span class="w-3 h-2.5 border border-current rounded-sm"></span>
+            <span>4:3</span>
+          </button>
+          <button onclick="setAspect('1:1')" id="aspect-1:1" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+            <span class="w-2.5 h-2.5 border border-current rounded-sm"></span>
+            <span>1:1</span>
+          </button>
+          <button onclick="setAspect('3:4')" id="aspect-3:4" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+            <span class="w-2.5 h-3 border border-current rounded-sm"></span>
+            <span>3:4</span>
+          </button>
+          <button onclick="setAspect('9:16')" id="aspect-9:16" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+            <span class="w-2 h-3.5 border border-current rounded-sm"></span>
+            <span>9:16</span>
+          </button>
+        </div>
+
+        <!-- SELECTOR DE MOTOR -->
+        <div class="relative">
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Motor de IA Generativa</label>
+          <div class="relative">
+            <button onclick="toggleModelDropdown()" id="selectedModelBtn" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-2xl px-4 py-2.5 text-xs text-white font-medium flex items-center justify-between transition-all">
+              <div class="flex items-center gap-2">
+                <span id="modelEmoji" class="text-base">🍌</span>
+                <span id="modelNameText">Nano Banana 2.1</span>
+              </div>
+              <i class="ph-bold ph-caret-down text-neutral-400"></i>
+            </button>
+
+            <!-- MENÚ DESPLEGABLE -->
+            <div id="modelDropdown" class="absolute bottom-full mb-2 left-0 right-0 bg-neutral-900 border border-neutral-800 rounded-2xl p-1.5 shadow-2xl z-50 hidden max-h-64 overflow-y-auto space-y-1">
+              
+              <!-- MOTORES DE IMAGEN -->
+              <div id="imageModelsSection">
+                <div class="text-[10px] font-semibold text-amber-400 uppercase px-3 pt-2 pb-1">Motores de Imagen (Nano Banana & 4K)</div>
+                <button onclick="selectModel('Nano Banana Pro', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🍌</span>
+                  <span>Nano Banana Pro</span>
+                </button>
+                <button onclick="selectModel('Nano Banana 2 Lite', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🍌</span>
+                  <span>Nano Banana 2 Lite</span>
+                </button>
+                <button onclick="selectModel('Nano Banana 2.1', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🍌</span>
+                  <span>Nano Banana 2.1</span>
+                </button>
+                <button onclick="selectModel('Flux.1 Dev 4K (Ultra Realista)', '✨')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span>✨</span>
+                    <span>Flux.1 Dev 4K</span>
+                  </div>
+                  <span class="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">4K</span>
+                </button>
+              </div>
+
+              <!-- MOTORES DE VIDEO -->
+              <div id="videoModelsSection" class="hidden">
+                <div class="text-[10px] font-semibold text-blue-400 uppercase px-3 pt-2 pb-1 border-t border-neutral-800/80">Motores de Video (Veo & Open Source)</div>
+                <button onclick="selectModel('Omni 1.1 Flash', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🔊</span>
+                  <span>Omni 1.1 Flash</span>
+                </button>
+                <button onclick="selectModel('Veo 3.1 - Lite', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🔊</span>
+                  <span>Veo 3.1 - Lite</span>
+                </button>
+                <button onclick="selectModel('Veo 3.1 - Fast', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🔊</span>
+                  <span>Veo 3.1 - Fast</span>
+                </button>
+                <button onclick="selectModel('Veo 3.1 - Quality', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
+                  <span>🔊</span>
+                  <span>Veo 3.1 - Quality</span>
+                </button>
+                <button onclick="selectModel('Hunyuan Video 4K', '🎬')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span>🎬</span>
+                    <span>Hunyuan Video 4K</span>
+                  </div>
+                  <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">4K</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- RESOLUCIÓN -->
+        <div class="space-y-1">
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Resolución de Salida</label>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="setResolution('360p')" id="res-360p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">360p</button>
+            <button onclick="setResolution('720p')" id="res-720p" class="res-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">720p HD</button>
+            <button onclick="setResolution('1080p')" id="res-1080p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1080p Full HD</button>
+            <button onclick="setResolution('4K Ultra HD')" id="res-4K Ultra HD" class="res-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1">
+              <i class="ph-bold ph-sparkle text-[10px]"></i>
+              <span>4K Ultra</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- DURACIÓN DE VIDEO -->
+        <div class="space-y-2 opacity-30 pointer-events-none" id="durationSection">
+          <div class="flex items-center justify-between px-1">
+            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider">Duración del Video (Máx 1 hora / 3600s)</label>
+            <span class="text-[10px] text-purple-400 font-medium" id="durationDisplay">Seleccionado: 10 s</span>
+          </div>
+
+          <div class="grid grid-cols-5 sm:grid-cols-10 gap-1">
+            <button onclick="setDuration('4s')" id="dur-4s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">4s</button>
+            <button onclick="setDuration('6s')" id="dur-6s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">6s</button>
+            <button onclick="setDuration('8s')" id="dur-8s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">8s</button>
+            <button onclick="setDuration('10s')" id="dur-10s" class="dur-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-[11px] font-medium transition-all">10s</button>
+            <button onclick="setDuration('30s')" id="dur-30s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">30s</button>
+            <button onclick="setDuration('60s')" id="dur-60s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">1m</button>
+            <button onclick="setDuration('5m')" id="dur-5m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">5m</button>
+            <button onclick="setDuration('15m')" id="dur-15m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">15m</button>
+            <button onclick="setDuration('30m')" id="dur-30m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">30m</button>
+            <button onclick="setDuration('1h')" id="dur-1h" class="dur-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/40 rounded-xl text-[11px] font-bold transition-all">1h</button>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1 bg-neutral-900/60 p-2 rounded-xl border border-neutral-800/80">
+            <i class="ph-bold ph-timer text-neutral-400 text-sm"></i>
+            <span class="text-xs text-neutral-400 shrink-0">Personalizado:</span>
+            <input 
+              type="number" 
+              id="customDurationInput" 
+              placeholder="Segundos (1-3600)" 
+              min="1" 
+              max="3600"
+              class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-2.5 py-1 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-purple-500"
+              oninput="handleCustomDuration(this.value)"
+            />
+            <span class="text-[10px] text-neutral-500 shrink-0">máx 3,600s</span>
+          </div>
+        </div>
+
+        <!-- MULTIPLICADOR DE GENERACIONES -->
+        <div class="space-y-1">
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Variaciones en Paralelo</label>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="setMultiplier('x1')" id="mult-x1" class="mult-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">x1</button>
+            <button onclick="setMultiplier('x2')" id="mult-x2" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x2</button>
+            <button onclick="setMultiplier('x3')" id="mult-x3" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x3</button>
+            <button onclick="setMultiplier('x4')" id="mult-x4" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x4</button>
+          </div>
+        </div>
+
+        <!-- AVISO DE CRÉDITOS -->
+        <div class="text-center pt-1 flex items-center justify-center gap-2">
+          <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
+            <i class="ph-bold ph-shield-check"></i> Generación SIN RESTRICCIONES (0 créditos)
+          </span>
+        </div>
+
+      </div>
+
+      <!-- CAJA PRINCIPAL DE PROMPT -->
+      <div class="bg-flowCard border border-neutral-800/90 rounded-full p-2 pl-4 pr-2 flex items-center justify-between gap-2 shadow-2xl glow-effect">
+        
+        <div class="flex items-center gap-2 flex-1">
+          <button onclick="toggleConfigModal()" id="toggleConfigBtn" class="w-9 h-9 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white flex items-center justify-center transition flow-btn shrink-0" title="Ajustes de generación">
+            <i class="ph-bold ph-plus text-lg"></i>
+          </button>
+
+          <button class="px-3 py-1.5 rounded-full bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition shrink-0 flow-btn">
+            <i class="ph-bold ph-robot text-sm text-blue-400"></i>
+            <span>Agente GUS</span>
+          </button>
+
+          <input type="text" id="promptInput" placeholder="¿Qué quieres crear en GUS FLOW?" class="w-full bg-transparent border-none text-sm text-white placeholder-neutral-500 focus:outline-none px-2" onkeypress="handleKeyPress(event)" />
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="toggleConfigModal()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 text-neutral-400 text-xs hover:text-neutral-200 border border-neutral-800">
+            <span id="summaryBadge">Imagen · Nano Banana 2.1 · 16:9 · x1</span>
+          </button>
+
+          <button onclick="generateContent()" id="generateBtn" class="w-10 h-10 rounded-full bg-white hover:bg-neutral-200 text-black flex items-center justify-center transition flow-btn shadow-lg">
+            <i class="ph-bold ph-arrow-right text-lg"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= LÓGICA DE JAVASCRIPT ================= -->
+  <script>
+    let currentConfig = {
+      mode: 'imagen',
+      aspect: '16:9',
+      model: 'Nano Banana 2.1',
+      modelEmoji: '🍌',
+      resolution: '720p',
+      duration: '10s',
+      multiplier: 'x1'
+    };
+
+    let generatedItems = [];
+    let ttsHistory = [];
+    let personajes = [
+      { id: 1, nombre: 'Protagonista Cyberpunk', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' },
+      { id: 2, nombre: 'Astronauta Sci-Fi', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80' }
+    ];
+
+    function toggleConfigModal() {
+      const modal = document.getElementById('configModal');
+      if (modal) modal.classList.toggle('hidden');
+    }
+
+    function toggleModelDropdown() {
+      const dropdown = document.getElementById('modelDropdown');
+      if (dropdown) dropdown.classList.toggle('hidden');
+    }
+
+    function setMode(mode) {
+      currentConfig.mode = mode;
+      document.querySelectorAll('.mode-tab').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'shadow-sm');
+        b.classList.add('text-neutral-400');
+      });
+      const active = document.getElementById(`mode-${mode}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'shadow-sm');
+        active.classList.remove('text-neutral-400');
+      }
+
+      // Alternar visibilidad de modelos de imagen/video
+      const imgSec = document.getElementById('imageModelsSection');
+      const vidSec = document.getElementById('videoModelsSection');
+      const durSec = document.getElementById('durationSection');
+
+      if (mode === 'video') {
+        if (imgSec) imgSec.classList.add('hidden');
+        if (vidSec) vidSec.classList.remove('hidden');
+        if (durSec) durSec.classList.remove('opacity-30', 'pointer-events-none');
+        selectModel('Veo 3.1 - Fast', '🔊');
+      } else {
+        if (imgSec) imgSec.classList.remove('hidden');
+        if (vidSec) vidSec.classList.add('hidden');
+        if (durSec) durSec.classList.add('opacity-30', 'pointer-events-none');
+        selectModel('Nano Banana 2.1', '🍌');
+      }
+
+      updateSummaryBadge();
+    }
+
+    function setAspect(aspect) {
+      currentConfig.aspect = aspect;
+      document.querySelectorAll('.aspect-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`aspect-${aspect}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
+      updateSummaryBadge();
+    }
+
+    function selectModel(modelName, emoji) {
+      currentConfig.model = modelName;
+      currentConfig.modelEmoji = emoji;
+      const textEl = document.getElementById('modelNameText');
+      const emojiEl = document.getElementById('modelEmoji');
+      if (textEl) textEl.innerText = modelName;
+      if (emojiEl) emojiEl.innerText = emoji;
+
+      const dropdown = document.getElementById('modelDropdown');
+      if (dropdown) dropdown.classList.add('hidden');
+      updateSummaryBadge();
+    }
+
+    function setResolution(res) {
+      currentConfig.resolution = res;
+      document.querySelectorAll('.res-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`res-${res}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
+      updateSummaryBadge();
+    }
+
+    function setDuration(dur) {
+      currentConfig.duration = dur;
+      document.querySelectorAll('.dur-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`dur-${dur}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
+      const durDisp = document.getElementById('durationDisplay');
+      if (durDisp) durDisp.innerText = `Seleccionado: ${dur}`;
+      updateSummaryBadge();
+    }
+
+    function handleCustomDuration(val) {
+      if (val && val > 0 && val <= 3600) {
+        setDuration(`${val}s`);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderPersonajes();
+      setMode('imagen');
+      updateSummaryBadge();
+      initEngineAutoUpdateSimulation();
+
+      const toggleSidebarBtn = document.getElementById('toggleSidebar');
+      const sidebar = document.getElementById('sidebar');
+      if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('w-64');
+          sidebar.classList.toggle('w-20');
+          document.querySelectorAll('.sidebar-text').forEach(el => el.classList.toggle('hidden'));
+        });
+      }
+    });
+
+    // SIMULACIÓN DE AUTO-ACTUALIZACIÓN AUTOMÁTICA DE MOTORES EN TIEMPO REAL
+    function initEngineAutoUpdateSimulation() {
+      const engines = ['Omni 1.1 Flash', 'Veo 3.1 - Lite', 'Veo 3.1 - Fast', 'Veo 3.1 - Quality', 'Nano Banana 2.1', 'Flux.1 Dev 4K'];
+      
+      setInterval(() => {
+        const badge = document.getElementById('engineUpdateBadge');
+        if (badge) {
+          const randomEngine = engines[Math.floor(Math.random() * engines.length)];
+          badge.innerText = `Sincronizando ${randomEngine}...`;
+          badge.classList.add('text-amber-400');
+          
+          setTimeout(() => {
+            badge.innerText = `Motores v3.1 Actualizados`;
+            badge.classList.remove('text-amber-400');
+          }, 2500);
+        }
+      }, 35000);
+    }
+
+    function switchTab(tabId) {
+      const views = ['elementos', 'personajes', 'escenas', 'herramientas', 'tts', 'papelera'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const target = document.getElementById(`view-${tabId}`);
+      if (target) target.classList.remove('hidden');
+
+      views.forEach(v => {
+        const btn = document.getElementById(`nav-${v}`);
+        if (btn) {
+          if (v === tabId) {
+            btn.classList.add('bg-neutral-800', 'text-white');
+            btn.classList.remove('text-neutral-300', 'text-neutral-400');
+          } else {
+            btn.classList.remove('bg-neutral-800', 'text-white');
+            btn.classList.add('text-neutral-300');
+          }
+        }
+      });
+    }
+
+    // ================= FUNCIONALIDAD DE TEXTO A AUDIO (TTS) =================
+    function filterTtsVoices() {
+      // Mantiene activo el catálogo dinámico de voces según el idioma elegido
+      const voiceSelect = document.getElementById('ttsVoiceSelect');
+      const lang = document.getElementById('ttsLanguageSelect').value;
+      
+      // Catálogo por idioma
+      const voiceMap = {
+        'es-US': [
+          { val: 'Kore', name: 'Kore — Latina Firme (Femenina)' },
+          { val: 'Puck', name: 'Puck — Latino Alegre (Masculino)' },
+          { val: 'Zephyr', name: 'Zephyr — Cálida y Expresiva (Femenina)' },
+          { val: 'Charon', name: 'Charon — Voz Grave / Noticiero (Masculino)' }
+        ],
+        'es-ES': [
+          { val: 'Kore', name: 'Kore — Castellano Neutro (Femenina)' },
+          { val: 'Fenrir', name: 'Fenrir — Castellano Robusto (Masculino)' },
+          { val: 'Aoede', name: 'Aoede — Joven y Fresca (Femenina)' }
+        ],
+        'en-US': [
+          { val: 'Puck', name: 'Puck — Upbeat & Natural (Male)' },
+          { val: 'Charon', name: 'Charon — Informative & Clear (Male)' },
+          { val: 'Zephyr', name: 'Zephyr — Bright & Cheerful (Female)' },
+          { val: 'Leda', name: 'Leda — Youthful & Soft (Female)' }
+        ],
+        'default': [
+          { val: 'Kore', name: 'Kore — Estándar (Femenina)' },
+          { val: 'Puck', name: 'Puck — Estándar (Masculino)' },
+          { val: 'Sulafat', name: 'Sulafat — Suave (Femenina)' }
+        ]
+      };
+
+      const options = voiceMap[lang] || voiceMap['default'];
+      voiceSelect.innerHTML = options.map(o => `<option value="${o.val}">${o.name}</option>`).join('');
+    }
+
+    // UTILIDADES PARA CONVERTIR PCM A WAV (REQUERIDO POR GEMINI API TTS)
+    function base64ToArrayBuffer(base64) {
+      const binaryString = atob(base64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    function pcmToWav(pcm16, sampleRate = 24000) {
+      const numChannels = 1;
+      const byteRate = sampleRate * numChannels * 2;
+      const blockAlign = numChannels * 2;
+      const dataSize = pcm16.length * 2;
+      const buffer = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buffer);
+
+      function writeString(offset, string) {
+        for (let i = 0; i < string.length; i++) {
+          view.setUint8(offset + i, string.charCodeAt(i));
+        }
+      }
+
+      writeString(0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeString(8, 'WAVE');
+      writeString(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true); // PCM format
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, byteRate, true);
+      view.setUint16(32, blockAlign, true);
+      view.setUint16(34, 16, true); // Bits per sample
+      writeString(36, 'data');
+      view.setUint32(40, dataSize, true);
+
+      let offset = 44;
+      for (let i = 0; i < pcm16.length; i++, offset += 2) {
+        view.setInt16(offset, pcm16[i], true);
+      }
+
+      return new Blob([buffer], { type: 'audio/wav' });
+    }
+
+    async function generateTTSAudio() {
+      const textInput = document.getElementById('ttsTextInput').value.trim();
+      if (!textInput) {
+        alert('Por favor introduce el texto que deseas convertir a audio.');
+        return;
+      }
+
+      const voice = document.getElementById('ttsVoiceSelect').value;
+      const style = document.getElementById('ttsStyleSelect').value;
+      const lang = document.getElementById('ttsLanguageSelect').value;
+      const btn = document.getElementById('generateTtsBtn');
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i> Sintetizando voz hiperrealista...`;
+
+      const fullPrompt = `${style} ${textInput}`;
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{
+          parts: [{ text: fullPrompt }]
+        }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName: voice }
+            }
+          }
+        }
+      };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        const part = result?.candidates?.[0]?.content?.parts?.[0];
+        const audioDataBase64 = part?.inlineData?.data;
+        const mimeType = part?.inlineData?.mimeType || '';
+
+        let audioUrl = '';
+
+        if (audioDataBase64) {
+          let sampleRate = 24000;
+          const match = mimeType.match(/rate=(\d+)/);
+          if (match) sampleRate = parseInt(match[1], 10);
+
+          const arrayBuf = base64ToArrayBuffer(audioDataBase64);
+          const pcm16 = new Int16Array(arrayBuf);
+          const wavBlob = pcmToWav(pcm16, sampleRate);
+          audioUrl = URL.createObjectURL(wavBlob);
+        } else {
+          // Fallback seguro usando Web Speech API en caso de limitación de red
+          console.warn('Usando fallback Web Speech API local...');
+          audioUrl = null;
+        }
+
+        const newAudioItem = {
+          id: Date.now(),
+          text: textInput,
+          voice: voice,
+          lang: lang,
+          url: audioUrl
+        };
+
+        ttsHistory.unshift(newAudioItem);
+        renderTTSHistory();
+
+        document.getElementById('ttsTextInput').value = '';
+        document.getElementById('ttsCharCount').innerText = '0 caracteres';
+
+      } catch (err) {
+        console.error('Error generando audio TTS:', err);
+        alert('Error al conectar con el servidor TTS. Inténtalo de nuevo.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="ph-bold ph-waveform text-lg"></i> <span>Generar Audio Hiperrealista (0 Créditos)</span>`;
+      }
+    }
+
+    function renderTTSHistory() {
+      const list = document.getElementById('ttsHistoryList');
+      const countDisplay = document.getElementById('ttsCountDisplay');
+      
+      if (!list) return;
+      countDisplay.innerText = `${ttsHistory.length} audios`;
+
+      if (ttsHistory.length === 0) {
+        list.innerHTML = `
+          <div id="ttsEmptyState" class="py-12 flex flex-col items-center justify-center text-center space-y-2">
+            <div class="w-12 h-12 rounded-full bg-neutral-900 flex items-center justify-center text-neutral-600">
+              <i class="ph-bold ph-speaker-none text-2xl text-purple-400/60"></i>
+            </div>
+            <p class="text-xs text-neutral-400">Aún no has generado pistas de audio.</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = ttsHistory.map(item => `
+        <div class="p-3 bg-neutral-900 border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition">
+          <div class="flex items-center justify-between text-[11px] text-neutral-400">
+            <span class="font-semibold text-purple-400 flex items-center gap-1">
+              <i class="ph-bold ph-user-sound"></i> Voz: ${item.voice}
+            </span>
+            <span class="bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-full text-[10px]">${item.lang}</span>
+          </div>
+          <p class="text-xs text-neutral-200 line-clamp-2 italic">"${item.text}"</p>
+          
+          ${item.url ? `
+            <audio controls class="w-full h-8 mt-1 rounded-lg">
+              <source src="${item.url}" type="audio/wav">
+              Tu navegador no soporta el reproductor de audio.
+            </audio>
+          ` : `
+            <button onclick="playFallbackSpeech('${item.text.replace(/'/g, "\\'")}', '${item.lang}')" class="w-full py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white text-xs rounded-xl flex items-center justify-center gap-2">
+              <i class="ph-bold ph-play"></i> Reproducción Directa
+            </button>
+          `}
+        </div>
+      `).join('');
+    }
+
+    function playFallbackSpeech(text, lang) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert('Tu navegador no soporta la reproducción directa de audio.');
+      }
+    }
+
+    function setMultiplier(mult) {
+      currentConfig.multiplier = mult;
+      document.querySelectorAll('.mult-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`mult-${mult}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
+      updateSummaryBadge();
+    }
+
+    function updateSummaryBadge() {
+      const modeText = currentConfig.mode.charAt(0).toUpperCase() + currentConfig.mode.slice(1);
+      const badge = document.getElementById('summaryBadge');
+      if (currentConfig.mode === 'imagen') {
+        badge.innerText = `${modeText} · ${currentConfig.model} · ${currentConfig.aspect} · ${currentConfig.multiplier}`;
+      } else {
+        badge.innerText = `${modeText} · ${currentConfig.resolution} · ${currentConfig.duration} · ${currentConfig.multiplier}`;
+      }
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        generateContent();
+      }
+    }
+
+    function generateContent() {
+      const promptInput = document.getElementById('promptInput');
+      const promptText = promptInput.value.trim();
+
+      if (!promptText) {
+        alert('Por favor escribe una descripción en el campo "¿Qué quieres crear en GUS FLOW?"');
+        return;
+      }
+
+      const emptyState = document.getElementById('emptyState');
+      if (emptyState) emptyState.remove();
+
+      const generateBtn = document.getElementById('generateBtn');
+      generateBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i>`;
+      generateBtn.disabled = true;
+
+      setTimeout(() => {
+        const count = parseInt(currentConfig.multiplier.replace('x', '')) || 1;
+        
+        for (let i = 0; i < count; i++) {
+          const newItem = {
+            id: Date.now() + i,
+            prompt: promptText,
+            mode: currentConfig.mode,
+            model: currentConfig.model,
+            res: currentConfig.resolution,
+            duration: currentConfig.duration,
+            aspect: currentConfig.aspect,
+            imgUrl: currentConfig.mode === 'video' 
+              ? `https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80`
+              : `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80`
+          };
+          generatedItems.unshift(newItem);
+          renderCard(newItem);
+        }
+
+        promptInput.value = '';
+        generateBtn.innerHTML = `<i class="ph-bold ph-arrow-right text-lg"></i>`;
+        generateBtn.disabled = false;
+        
+        document.getElementById('configModal').classList.add('hidden');
+        switchTab('elementos');
+        document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados hoy`;
+
+      }, 1000);
+    }
+
+    function renderCard(item) {
+      const grid = document.getElementById('galleryGrid');
+      const card = document.createElement('div');
+      card.className = "bg-flowCard border border-neutral-800 rounded-2xl overflow-hidden shadow-lg group hover:border-neutral-700 transition flex flex-col";
+      
+      card.innerHTML = `
+        <div class="relative aspect-video bg-neutral-900 overflow-hidden">
+          <img src="${item.imgUrl}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition p-3 flex flex-col justify-between">
+            <div class="flex justify-end gap-1">
+              <button class="w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"><i class="ph-bold ph-download-simple"></i></button>
+              <button class="w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"><i class="ph-bold ph-copy"></i></button>
+            </div>
+            <div class="flex items-center justify-between text-[10px] text-neutral-300">
+              <span class="bg-black/60 px-2 py-0.5 rounded-full backdrop-blur">${item.model}</span>
+              <span class="bg-blue-500/80 text-white px-2 py-0.5 rounded-full font-bold">${item.res}</span>
+            </div>
+          </div>
+          ${item.mode === 'video' ? `
+            <div class="absolute bottom-2 left-2 bg-black/70 backdrop-blur text-white text-[10px] px-2 py-0.5 rounded-md flex items-center gap-1 font-medium">
+              <i class="ph-bold ph-play text-[8px]"></i>
+              <span>${item.duration}</span>
+            </div>
+          ` : ''}
+        </div>
+        <div class="p-3 flex-1 flex flex-col justify-between space-y-2">
+          <p class="text-xs text-neutral-200 line-clamp-2 font-medium">"${item.prompt}"</p>
+          <div class="flex items-center justify-between text-[10px] text-neutral-500 pt-1 border-t border-neutral-800/60">
+            <span class="text-emerald-400 font-semibold flex items-center gap-1">
+              <i class="ph-bold ph-lock-key-open text-[10px]"></i> Sin Restricciones
+            </span>
+            <span>Hace un momento</span>
+          </div>
+        </div>
+      `;
+      grid.prepend(card);
+    }
+
+    function renderPersonajes() {
+      const grid = document.getElementById('personajesGrid');
+      if (!grid) return;
+      grid.innerHTML = personajes.map(p => `
+        <div class="bg-flowCard border border-neutral-800 rounded-2xl p-3 flex items-center gap-3 hover:border-neutral-700 transition">
+          <img src="${p.img}" class="w-14 h-14 rounded-xl object-cover" />
+          <div class="flex-1 min-w-0">
+            <h4 class="text-sm font-semibold text-white truncate">${p.nombre}</h4>
+            <p class="text-[10px] text-neutral-400">Identidad guardada • Usar en prompt</p>
+          </div>
+          <button class="text-neutral-400 hover:text-white p-1"><i class="ph-bold ph-dots-three-vertical"></i></button>
+        </div>
+      `).join('');
+    }
+
+    function nuevoPersonaje() {
+      const nombre = prompt('Nombre para el nuevo personaje en GUS FLOW:');
+      if (nombre) {
+        personajes.push({
+          id: Date.now(),
+          nombre: nombre,
+          img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&auto=format&fit=crop&q=80'
+        });
+        renderPersonajes();
+      }
+    }
+  </script>
+</body>
+</html>
