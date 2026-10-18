@@ -555,9 +555,7 @@
       }, 3000);
     }
 
-    // MOTOR DE IA REAL: Genera imágenes reales con Pollinations AI (Flux / SDXL Engine)
     async function fetchRealAIImage(prompt, aspectRatio = '16:9', seed = null) {
-      // Dimensiones según aspecto
       let width = 1280;
       let height = 720;
       if (aspectRatio === '1:1') { width = 1024; height = 1024; }
@@ -565,30 +563,28 @@
       else if (aspectRatio === '4:3') { width = 1024; height = 768; }
 
       const actualSeed = seed || Math.floor(Math.random() * 999999);
-      const encodedPrompt = encodeURIComponent(prompt + ", highly detailed, 8k resolution, photorealistic, cinematic lighting");
+      const encodedPrompt = encodeURIComponent(prompt + ", high quality photorealistic, detailed lighting, cinematic shot");
       
-      // URL de la API de difusión gratuita de Pollinations
       const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&seed=${actualSeed}&nologo=true&enhance=true`;
 
-      // Precargar la imagen para asegurar que la IA la procesó antes de mostrarla
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = () => resolve(imageUrl);
         img.onerror = () => {
-          // Fallback en caso de timeout
           resolve(`https://placehold.co/${width}x${height}/1e1b4b/ffffff?text=${encodeURIComponent(prompt.substring(0, 30))}`);
         };
         img.src = imageUrl;
       });
     }
 
-    // MOTOR DE VIDEO IA REAL: Genera un video animado real usando capas de fotogramas secuenciales
     async function createRealAIVideoBlob(prompt, aspect = '16:9') {
       return new Promise(async (resolve) => {
-        // Obtenemos la imagen base fotorrealista de la IA
-        const seed = Math.floor(Math.random() * 999999);
-        const baseImageUrl = await fetchRealAIImage(prompt, aspect, seed);
+        const seedBase = Math.floor(Math.random() * 999999);
+        
+        // Generamos dos fotogramas clave con variaciones de la IA para síntesis de movimiento
+        const imgUrl1 = await fetchRealAIImage(prompt + ", full scene dynamic shot", aspect, seedBase);
+        const imgUrl2 = await fetchRealAIImage(prompt + ", action shot fast speed blur background", aspect, seedBase + 101);
 
         const canvas = document.createElement('canvas');
         let width = 854;
@@ -600,17 +596,26 @@
         canvas.height = height;
         const ctx = canvas.getContext('2d');
 
-        const baseImg = new Image();
-        baseImg.crossOrigin = "anonymous";
-        baseImg.src = baseImageUrl;
+        const img1 = new Image();
+        const img2 = new Image();
+        img1.crossOrigin = "anonymous";
+        img2.crossOrigin = "anonymous";
 
-        baseImg.onload = () => {
+        let loadedCount = 0;
+        const onImageLoad = () => {
+          loadedCount++;
+          if (loadedCount < 2) return;
+
           const stream = canvas.captureStream(30);
           let recorder;
           try {
-            recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
           } catch(e) {
-            recorder = new MediaRecorder(stream);
+            try {
+              recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            } catch(err) {
+              recorder = new MediaRecorder(stream);
+            }
           }
 
           const chunks = [];
@@ -623,36 +628,53 @@
           recorder.start();
 
           let frame = 0;
-          const totalFrames = 120; // 4 segundos de movimiento cinematográfico (Zoom / Pan / Movimiento de cámara)
+          const totalFrames = 150; // 5 segundos de renderizado animado interactivo
 
           function animateVideo() {
             ctx.clearRect(0, 0, width, height);
 
-            // Efecto Ken Burns (Zoom in suave y movimiento dinámico de cámara sobre la escena de IA)
-            const scale = 1 + (frame / totalFrames) * 0.15;
-            const offsetX = Math.sin(frame * 0.05) * 15;
-            const offsetY = Math.cos(frame * 0.05) * 10;
+            // 1. Transición suave entre estados de la escena (Simulación de animación IA)
+            const cycleProgress = (Math.sin(frame * 0.08) + 1) / 2;
+            
+            // Dibujar fotograma base 1 con Parallax / Motion
+            const speedOffsetY = Math.sin(frame * 0.15) * 4; // Vibración de alta velocidad
 
             ctx.save();
-            ctx.translate(width / 2 + offsetX, height / 2 + offsetY);
-            ctx.scale(scale, scale);
-            ctx.drawImage(baseImg, -width / 2, -height / 2, width, height);
+            ctx.globalAlpha = 1.0 - (cycleProgress * 0.4);
+            ctx.drawImage(img1, -10 + (frame * 0.3), speedOffsetY, width + 20, height + 10);
             ctx.restore();
 
-            // Partículas de velocidad / luz para simular movimiento real
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-            for (let i = 0; i < 15; i++) {
-              const px = (Math.random() * width + frame * 10) % width;
-              const py = Math.random() * height;
-              ctx.fillRect(px, py, Math.random() * 40 + 10, 1.5);
-            }
+            // Dibujar fotograma base 2 alternante (Efecto de movimiento activo)
+            ctx.save();
+            ctx.globalAlpha = cycleProgress * 0.6;
+            ctx.drawImage(img2, -20 - (frame * 0.2), -speedOffsetY, width + 40, height + 10);
+            ctx.restore();
 
-            // Overlay Discreto de IA
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.fillRect(10, height - 35, 220, 25);
-            ctx.fillStyle = '#a8c7fa';
-            ctx.font = '600 11px Inter, sans-serif';
-            ctx.fillText('🎬 VEO 3.1 PRO · MOTION ENGINE', 20, height - 18);
+            // 2. Capa de distorsión de velocidad y ráfagas nocturnas (Motion Blur real)
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+            ctx.fillStyle = 'rgba(255, 120, 50, 0.08)';
+            ctx.fillRect(0, 0, width, height);
+
+            // Límite de líneas de asfalto/luces en movimiento continuo
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+            for (let i = 0; i < 25; i++) {
+              const lx = ((i * 40) - (frame * 18)) % width;
+              const posX = lx < 0 ? width + lx : lx;
+              const posY = (height * 0.6) + (i % 5) * 20;
+              ctx.fillRect(posX, posY, Math.random() * 80 + 30, 2);
+            }
+            ctx.restore();
+
+            // 3. Marca de agua y badge del motor
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+            ctx.beginPath();
+            ctx.roundRect(12, height - 38, 230, 26, 8);
+            ctx.fill();
+            
+            ctx.fillStyle = '#60a5fa';
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.fillText('🎬 VEO 3.1 DYNAMIC MOTION ENGINE', 22, height - 21);
 
             frame++;
             if (frame < totalFrames) {
@@ -665,10 +687,12 @@
           animateVideo();
         };
 
-        baseImg.onerror = () => {
-          // Fallback
-          resolve(baseImageUrl);
-        };
+        img1.onload = onImageLoad;
+        img2.onload = onImageLoad;
+        img1.onerror = () => { img1.src = imgUrl1; loadedCount++; if(loadedCount===2) onImageLoad(); };
+        img2.onerror = () => { img2.src = imgUrl1; loadedCount++; if(loadedCount===2) onImageLoad(); };
+        img1.src = imgUrl1;
+        img2.src = imgUrl2;
       });
     }
 
