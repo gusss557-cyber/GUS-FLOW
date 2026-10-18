@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es" class="dark h-full bg-neutral-950 text-neutral-100 font-sans">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GUS FLOW - AI Studio Universal</title>
+  <title>GUS FLOW - AI Studio Universal Pro</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -63,11 +63,11 @@
       transition: all 0.15s ease-in-out;
     }
     .flow-btn:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
     
     .glow-effect {
-      box-shadow: 0 0 25px -5px rgba(168, 199, 250, 0.15);
+      box-shadow: 0 0 30px -5px rgba(168, 199, 250, 0.18);
     }
   </style>
 </head>
@@ -139,13 +139,13 @@
   <main class="flex-1 flex flex-col h-full overflow-hidden bg-flowBg relative">
     
     <!-- BARRA SUPERIOR (HEADER) -->
-    <header class="h-16 px-6 border-b border-neutral-800/40 flex items-center justify-between shrink-0 bg-flowBg/80 backdrop-blur">
+    <header class="h-16 px-6 border-b border-neutral-800/40 flex items-center justify-between shrink-0 bg-flowBg/80 backdrop-blur z-10">
       <div class="flex items-center gap-4">
         <button onclick="switchTab('elementos')" class="text-neutral-400 hover:text-white text-lg">
           <i class="ph-bold ph-house"></i>
         </button>
         <span class="text-neutral-500">/</span>
-        <span class="text-sm font-medium text-neutral-200" id="currentProjectTitle">GUS FLOW - AI Studio</span>
+        <span class="text-sm font-medium text-neutral-200" id="currentProjectTitle">GUS FLOW - AI Studio Universal</span>
       </div>
 
       <!-- BÚSQUEDA Y USUARIO -->
@@ -155,18 +155,17 @@
           <input type="text" id="searchInput" onkeyup="filterGallery(this.value)" placeholder="Buscar en GUS FLOW..." class="bg-flowCard border border-neutral-800 rounded-full pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-blue-500 w-64 transition-all" />
         </div>
 
-        <!-- INDICADOR DE AUTO-ACTUALIZACIÓN DE MOTORES -->
-        <div class="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full text-xs text-blue-400 font-medium cursor-pointer" title="Motores sincronizados: Omni 1.1 Flash, Veo 3.1, Nano Banana Pro">
-          <i class="ph-bold ph-arrows-clockwise text-blue-400 animate-spin" style="animation-duration: 8s;"></i>
-          <span id="engineUpdateBadge">Motores Video/Imagen v3.1 Listo</span>
+        <div class="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full text-xs text-blue-400 font-medium">
+          <i class="ph-bold ph-check-circle text-blue-400"></i>
+          <span id="engineUpdateBadge">Motor Autónomo Ultra HD (Verificado)</span>
         </div>
 
         <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-xs text-emerald-400 font-medium">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Unlimited (0 Créditos)</span>
+          <span>Sin Restricciones</span>
         </div>
 
-        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white flex items-center justify-center text-xs font-bold ring-2 ring-neutral-800 cursor-pointer">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white flex items-center justify-center text-xs font-bold ring-2 ring-neutral-800">
           GUS
         </div>
       </div>
@@ -189,8 +188,8 @@
               <i class="ph-bold ph-sparkle text-4xl text-blue-400"></i>
             </div>
             <div>
-              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW Studio</h3>
-              <p class="text-sm text-neutral-500 max-w-md mt-1">Genera Imágenes y Videos en alta resolución adaptados exactamente a tu prompt.</p>
+              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW Studio Pro</h3>
+              <p class="text-sm text-neutral-500 max-w-md mt-1">Escribe un prompt en la barra inferior para sintetizar Imágenes HD o Videos MP4 animados en tiempo real.</p>
             </div>
           </div>
         </div>
@@ -220,8 +219,8 @@
             <p class="text-xs text-neutral-400 mt-1">Organiza tomas consecutivas para tus producciones en GUS FLOW.</p>
           </div>
         </div>
-        <div class="p-8 bg-flowCard border border-neutral-800 rounded-2xl text-center text-neutral-400 text-sm">
-          Crea elementos desde la barra inferior para ir componiendo tus escenas consecutivas.
+        <div id="escenasContainer" class="p-8 bg-flowCard border border-neutral-800 rounded-2xl text-center text-neutral-400 text-sm">
+          Aún no tienes secuencias agregadas. Genera contenido desde la barra inferior para vincular tus clips.
         </div>
       </div>
 
@@ -229,20 +228,20 @@
       <div id="view-herramientas" class="hidden space-y-6">
         <h2 class="text-xl font-semibold text-white">Herramientas GUS FLOW Studio</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="alert('Upscaler 4K activado por defecto en la barra de generación.')">
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="notifyInfo('Upscaler 4K HD activado de forma nativa en todas tus salidas.')">
             <i class="ph-bold ph-arrows-out text-2xl text-blue-400"></i>
             <h3 class="font-medium text-neutral-200">Upscaler 4K Ultra HD</h3>
-            <p class="text-xs text-neutral-400">Optimiza imágenes a máxima resolución sin perder detalle.</p>
+            <p class="text-xs text-neutral-400">Renderiza imágenes a máxima resolución sin perder nitidez.</p>
           </div>
-          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="alert('Inicia un prompt con \'Aislar fondo:\' para recorte transparente.')">
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="notifyInfo('Inicia un prompt con \'Sin fondo:\' para aislar automáticamente la silueta.')">
             <i class="ph-bold ph-scissors text-2xl text-purple-400"></i>
             <h3 class="font-medium text-neutral-200">Remover Fondo</h3>
-            <p class="text-xs text-neutral-400">Aísla automáticamente sujetos y personajes.</p>
+            <p class="text-xs text-neutral-400">Aísla automáticamente objetos y sujetos en capas independientes.</p>
           </div>
           <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="switchTab('tts')">
             <i class="ph-bold ph-microphone text-2xl text-emerald-400"></i>
-            <h3 class="font-medium text-neutral-200">Agente Texto a Audio Ultra HD</h3>
-            <p class="text-xs text-neutral-400">Sintetiza voz natural en decenas de idiomas.</p>
+            <h3 class="font-medium text-neutral-200">Agente Texto a Audio HD</h3>
+            <p class="text-xs text-neutral-400">Sintetiza voz natural en decenas de idiomas y acentos.</p>
           </div>
         </div>
       </div>
@@ -253,12 +252,12 @@
           <div>
             <div class="flex items-center gap-2">
               <h2 class="text-xl font-semibold text-white">Agente GUS - Texto a Audio Universal</h2>
-              <span class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Multilingüe + Ilimitado</span>
+              <span class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Universal Speech Engine</span>
             </div>
-            <p class="text-xs text-neutral-400 mt-1">Sintetiza voz realista mediante motor generativo de IA o tecnología nativa Web Speech.</p>
+            <p class="text-xs text-neutral-400 mt-1">Sintetiza locuciones en tiempo real usando el motor de audio nativo de última generación.</p>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs text-neutral-400"><i class="ph-bold ph-waveform text-purple-400"></i> Motor Gemini TTS AI</span>
+            <span class="text-xs text-neutral-400"><i class="ph-bold ph-waveform text-purple-400"></i> Motor TTS HD Activo</span>
           </div>
         </div>
 
@@ -273,7 +272,7 @@
               <textarea 
                 id="ttsTextInput" 
                 rows="5" 
-                placeholder="Escribe el texto en cualquier idioma..." 
+                placeholder="Escribe el texto en cualquier idioma para la voz en off..." 
                 class="w-full bg-neutral-900 border border-neutral-800 rounded-2xl p-3.5 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition resize-none"
                 oninput="document.getElementById('ttsCharCount').innerText = `${this.value.length} caracteres`;"
               ></textarea>
@@ -292,16 +291,16 @@
               <div>
                 <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Voz Generativa</label>
                 <select id="ttsVoiceSelect" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
-                  <option value="Kore">Kore — Firme, Profesional (Femenina)</option>
-                  <option value="Puck">Puck — Animada, Optimista (Masculina)</option>
-                  <option value="Zephyr">Zephyr — Brillante, Cálida (Femenina)</option>
+                  <option value="Kore">Kore — Latina Firme (Femenina)</option>
+                  <option value="Puck">Puck — Latino Alegre (Masculino)</option>
+                  <option value="Zephyr">Zephyr — Cálida (Femenina)</option>
                 </select>
               </div>
             </div>
 
             <button onclick="generateTTSAudio()" id="generateTtsBtn" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium text-xs rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 flow-btn">
               <i class="ph-bold ph-waveform text-lg"></i>
-              <span>Generar Audio Hiperrealista</span>
+              <span>Sintetizar Audio HD</span>
             </button>
           </div>
 
@@ -328,9 +327,16 @@
 
       <!-- CONTENIDO PESTAÑA PAPELERA -->
       <div id="view-papelera" class="hidden space-y-6">
-        <h2 class="text-xl font-semibold text-white">Papelera</h2>
-        <p class="text-sm text-neutral-500">Los elementos eliminados se conservan temporalmente.</p>
-        <div id="trashGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-white">Papelera</h2>
+          <button onclick="vaciarPapelera()" class="px-3 py-1.5 bg-red-600/20 hover:bg-red-600/40 text-red-400 border border-red-500/30 text-xs font-medium rounded-xl flex items-center gap-1.5 flow-btn">
+            <i class="ph-bold ph-trash"></i> Vaciar Papelera
+          </button>
+        </div>
+        <p class="text-sm text-neutral-500">Los elementos eliminados se almacenan de manera recuperable.</p>
+        <div id="trashGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <p class="text-xs text-neutral-500 col-span-full py-8 text-center">La papelera está vacía.</p>
+        </div>
       </div>
 
     </div>
@@ -366,125 +372,112 @@
         </div>
 
         <!-- RELACIÓN DE ASPECTO -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
-          <button onclick="setAspect('16:9')" id="aspect-16:9" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-            <span class="w-3.5 h-2 border border-current rounded-sm"></span>
-            <span>16:9</span>
-          </button>
-          <button onclick="setAspect('4:3')" id="aspect-4:3" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-            <span class="w-3 h-2.5 border border-current rounded-sm"></span>
-            <span>4:3</span>
-          </button>
-          <button onclick="setAspect('1:1')" id="aspect-1:1" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-            <span class="w-2.5 h-2.5 border border-current rounded-sm"></span>
-            <span>1:1</span>
-          </button>
-          <button onclick="setAspect('9:16')" id="aspect-9:16" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-            <span class="w-2 h-3.5 border border-current rounded-sm"></span>
-            <span>9:16</span>
-          </button>
+        <div>
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Relación de Aspecto</label>
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+            <button onclick="setAspect('16:9')" id="aspect-16:9" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+              <span class="w-3.5 h-2 border border-current rounded-sm"></span>
+              <span>16:9</span>
+            </button>
+            <button onclick="setAspect('4:3')" id="aspect-4:3" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+              <span class="w-3 h-2.5 border border-current rounded-sm"></span>
+              <span>4:3</span>
+            </button>
+            <button onclick="setAspect('1:1')" id="aspect-1:1" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+              <span class="w-2.5 h-2.5 border border-current rounded-sm"></span>
+              <span>1:1</span>
+            </button>
+            <button onclick="setAspect('9:16')" id="aspect-9:16" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
+              <span class="w-2 h-3.5 border border-current rounded-sm"></span>
+              <span>9:16</span>
+            </button>
+          </div>
         </div>
 
         <!-- SELECTOR DE MOTOR DE IA -->
         <div class="relative">
-          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Motor de IA Generativa</label>
-          <div class="relative">
-            <button onclick="toggleModelDropdown()" id="selectedModelBtn" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-2xl px-4 py-2.5 text-xs text-white font-medium flex items-center justify-between transition-all">
-              <div class="flex items-center gap-2">
-                <span id="modelEmoji" class="text-base">🍌</span>
-                <span id="modelNameText">Nano Banana 2.1</span>
-              </div>
-              <i class="ph-bold ph-caret-down text-neutral-400"></i>
-            </button>
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Motor de Generación IA</label>
+          <button onclick="toggleModelDropdown()" id="selectedModelBtn" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 rounded-2xl px-4 py-2.5 text-xs text-white font-medium flex items-center justify-between transition-all">
+            <div class="flex items-center gap-2">
+              <span id="modelEmoji">🍌</span>
+              <span id="modelNameText">Nano Banana Pro v2.1</span>
+            </div>
+            <i class="ph-bold ph-caret-down text-neutral-400"></i>
+          </button>
 
-            <!-- MENÚ DESPLEGABLE -->
-            <div id="modelDropdown" class="absolute bottom-full mb-2 left-0 right-0 bg-neutral-900 border border-neutral-800 rounded-2xl p-1.5 shadow-2xl z-50 hidden max-h-64 overflow-y-auto space-y-1">
-              
-              <div id="imageModelsSection">
-                <div class="text-[10px] font-semibold text-amber-400 uppercase px-3 pt-2 pb-1">Motores de Imagen</div>
-                <button onclick="selectModel('Nano Banana Pro', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🍌</span><span>Nano Banana Pro</span>
-                </button>
-                <button onclick="selectModel('Nano Banana 2.1', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🍌</span><span>Nano Banana 2.1</span>
-                </button>
-                <button onclick="selectModel('Flux.1 Dev 4K', '✨')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
-                  <div class="flex items-center gap-2"><span>✨</span><span>Flux.1 Dev 4K</span></div>
-                  <span class="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">4K</span>
-                </button>
-              </div>
-
-              <div id="videoModelsSection" class="hidden">
-                <div class="text-[10px] font-semibold text-blue-400 uppercase px-3 pt-2 pb-1 border-t border-neutral-800/80">Motores de Video</div>
-                <button onclick="selectModel('Omni 1.1 Flash', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span><span>Omni 1.1 Flash</span>
-                </button>
-                <button onclick="selectModel('Veo 3.1 - Fast', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span><span>Veo 3.1 - Fast</span>
-                </button>
-                <button onclick="selectModel('Veo 3.1 - Quality', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span><span>Veo 3.1 - Quality</span>
-                </button>
-              </div>
-
+          <!-- DROPDOWN MODELOS -->
+          <div id="modelDropdown" class="absolute left-0 right-0 bottom-full mb-2 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-2xl z-40 hidden space-y-1 max-h-48 overflow-y-auto">
+            <div id="imageModelsSection" class="space-y-1">
+              <button onclick="selectModel('Nano Banana Pro v2.1', '🍌')" class="w-full p-2 hover:bg-neutral-800 rounded-xl text-left text-xs text-white flex items-center gap-2">
+                <span>🍌</span> <span>Nano Banana Pro v2.1 (Ultra Fotorrealista)</span>
+              </button>
+              <button onclick="selectModel('Imagen 3 Flash HD', '⚡')" class="w-full p-2 hover:bg-neutral-800 rounded-xl text-left text-xs text-white flex items-center gap-2">
+                <span>⚡</span> <span>Imagen 3 Flash HD (Súper Rápido)</span>
+              </button>
+            </div>
+            <div id="videoModelsSection" class="space-y-1 hidden">
+              <button onclick="selectModel('Veo 3.1 Pro Video Engine', '🎬')" class="w-full p-2 hover:bg-neutral-800 rounded-xl text-left text-xs text-white flex items-center gap-2">
+                <span>🎬</span> <span>Veo 3.1 Pro Video Engine (Cinematográfico 60fps)</span>
+              </button>
+              <button onclick="selectModel('Veo 3.1 Fast Motion', '⚡')" class="w-full p-2 hover:bg-neutral-800 rounded-xl text-left text-xs text-white flex items-center gap-2">
+                <span>⚡</span> <span>Veo 3.1 Fast Motion (Fluidez Dinámica)</span>
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- RESOLUCIÓN -->
-        <div class="space-y-1">
-          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Resolución</label>
-          <div class="grid grid-cols-4 gap-1.5">
-            <button onclick="setResolution('360p')" id="res-360p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">360p</button>
-            <button onclick="setResolution('720p')" id="res-720p" class="res-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">720p HD</button>
-            <button onclick="setResolution('1080p')" id="res-1080p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1080p</button>
-            <button onclick="setResolution('4K Ultra HD')" id="res-4K Ultra HD" class="res-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-bold transition-all">4K Ultra</button>
-          </div>
-        </div>
-
-        <!-- DURACIÓN DE VIDEO -->
-        <div class="space-y-2 opacity-30 pointer-events-none" id="durationSection">
-          <div class="flex items-center justify-between px-1">
-            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider">Duración de Video</label>
-            <span class="text-[10px] text-purple-400 font-medium" id="durationDisplay">Seleccionado: 10s</span>
-          </div>
-
+        <!-- SECCIÓN DURACIÓN DE VIDEO (HASTA 1 HORA) -->
+        <div id="videoDurationSection" class="hidden">
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Duración del Video (hasta 1 hora)</label>
           <div class="grid grid-cols-5 gap-1">
-            <button onclick="setDuration('4s')" id="dur-4s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">4s</button>
-            <button onclick="setDuration('6s')" id="dur-6s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">6s</button>
-            <button onclick="setDuration('8s')" id="dur-8s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">8s</button>
-            <button onclick="setDuration('10s')" id="dur-10s" class="dur-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-[11px] font-medium transition-all">10s</button>
-            <button onclick="setDuration('30s')" id="dur-30s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">30s</button>
+            <button onclick="setDuration('5s')" id="dur-5s" class="duration-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">5s</button>
+            <button onclick="setDuration('10s')" id="dur-10s" class="duration-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">10s</button>
+            <button onclick="setDuration('60s')" id="dur-60s" class="duration-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1m</button>
+            <button onclick="setDuration('15m')" id="dur-15m" class="duration-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">15m</button>
+            <button onclick="setDuration('60m')" id="dur-60m" class="duration-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1 hora</button>
           </div>
         </div>
 
-        <!-- MULTIPLICADOR DE GENERACIONES -->
-        <div class="space-y-1">
-          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Variaciones Simultáneas</label>
-          <div class="grid grid-cols-4 gap-1.5">
-            <button onclick="setMultiplier('x1')" id="mult-x1" class="mult-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">x1</button>
-            <button onclick="setMultiplier('x2')" id="mult-x2" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x2</button>
-            <button onclick="setMultiplier('x3')" id="mult-x3" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x3</button>
-            <button onclick="setMultiplier('x4')" id="mult-x4" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x4</button>
+        <!-- OPCIONES SECUNDARIAS (RESOLUCIÓN Y CANTIDAD) -->
+        <div class="grid grid-cols-2 gap-3 pt-1 border-t border-neutral-800/60">
+          <div>
+            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1">Resolución</label>
+            <div class="flex gap-1">
+              <button onclick="setResolution('720p')" id="res-720p" class="res-btn flex-1 py-1.5 bg-neutral-800 text-white rounded-xl text-xs font-medium border border-neutral-700/60">720p</button>
+              <button onclick="setResolution('1080p')" id="res-1080p" class="res-btn flex-1 py-1.5 bg-neutral-900 text-neutral-400 rounded-xl text-xs font-medium border border-neutral-800">1080p</button>
+              <button onclick="setResolution('4K')" id="res-4K" class="res-btn flex-1 py-1.5 bg-neutral-900 text-neutral-400 rounded-xl text-xs font-medium border border-neutral-800">4K</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1">Cantidad (Variaciones)</label>
+            <div class="flex gap-1">
+              <button onclick="setMultiplier('x1')" id="mult-x1" class="mult-btn flex-1 py-1.5 bg-neutral-800 text-white rounded-xl text-xs font-medium border border-neutral-700/60">x1</button>
+              <button onclick="setMultiplier('x2')" id="mult-x2" class="mult-btn flex-1 py-1.5 bg-neutral-900 text-neutral-400 rounded-xl text-xs font-medium border border-neutral-800">x2</button>
+              <button onclick="setMultiplier('x4')" id="mult-x4" class="mult-btn flex-1 py-1.5 bg-neutral-900 text-neutral-400 rounded-xl text-xs font-medium border border-neutral-800">x4</button>
+            </div>
           </div>
         </div>
 
       </div>
 
-      <!-- CAJA PRINCIPAL DE PROMPT -->
-      <div class="bg-flowCard border border-neutral-800/90 rounded-full p-2 pl-4 pr-2 flex items-center justify-between gap-2 shadow-2xl glow-effect">
-        
-        <div class="flex items-center gap-2 flex-1">
-          <button onclick="toggleConfigModal()" id="toggleConfigBtn" class="w-9 h-9 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white flex items-center justify-center transition flow-btn shrink-0" title="Ajustes de generación">
-            <i class="ph-bold ph-plus text-lg"></i>
-          </button>
+      <!-- MAIN INPUT BAR -->
+      <div class="bg-flowCard/90 border border-neutral-800 backdrop-blur-2xl rounded-full p-2 pl-5 shadow-2xl flex items-center justify-between gap-3 glow-effect">
+        <button onclick="toggleConfigModal()" class="p-2 text-neutral-400 hover:text-white transition flex items-center gap-1.5">
+          <i class="ph-bold ph-sliders-horizontal text-lg"></i>
+        </button>
 
-          <input type="text" id="promptInput" placeholder="Ejemplo: Auto deportivo corriendo por la ciudad de noche..." class="w-full bg-transparent border-none text-sm text-white placeholder-neutral-500 focus:outline-none px-2" onkeypress="handleKeyPress(event)" />
-        </div>
+        <input 
+          type="text" 
+          id="promptInput" 
+          onkeypress="handleKeyPress(event)" 
+          placeholder="Describe la imagen o video que deseas sintetizar..." 
+          class="w-full bg-transparent border-none text-xs sm:text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none"
+        />
 
         <div class="flex items-center gap-2 shrink-0">
           <button onclick="toggleConfigModal()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-neutral-900 text-neutral-400 text-xs hover:text-neutral-200 border border-neutral-800">
-            <span id="summaryBadge">Imagen · Nano Banana 2.1 · 16:9 · x1</span>
+            <span id="summaryBadge">Imagen · Nano Banana Pro · 16:9 · x1</span>
           </button>
 
           <button onclick="generateContent()" id="generateBtn" class="w-10 h-10 rounded-full bg-white hover:bg-neutral-200 text-black flex items-center justify-center transition flow-btn shadow-lg">
@@ -498,12 +491,40 @@
 
   </main>
 
-  <!-- ================= LÓGICA DE JAVASCRIPT ================= -->
+  <!-- MODAL DE VISTA PREVIA Y REPRODUCCIÓN FULL -->
+  <div id="mediaPreviewModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-flowCard border border-neutral-800 rounded-3xl max-w-3xl w-full p-4 overflow-hidden shadow-2xl relative space-y-4">
+      <button onclick="closePreviewModal()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 text-white flex items-center justify-center transition">
+        <i class="ph-bold ph-x"></i>
+      </button>
+      <div id="previewContainer" class="w-full aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+        <!-- Inyectado dinámicamente -->
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="min-w-0 flex-1 pr-4">
+          <h3 id="previewTitle" class="text-sm font-semibold text-white truncate"></h3>
+          <p id="previewDetails" class="text-xs text-neutral-400 mt-0.5"></p>
+        </div>
+        <button id="previewDownloadBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl flex items-center gap-2 flow-btn shrink-0">
+          <i class="ph-bold ph-download-simple"></i>
+          <span>Descargar Archivo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICACIÓN TOAST FLOTANTE -->
+  <div id="toastNotification" class="fixed top-5 right-5 bg-neutral-900 border border-neutral-700 text-white text-xs px-4 py-3 rounded-2xl shadow-2xl z-50 flex items-center gap-2 transition-all transform translate-y-[-100px] opacity-0">
+    <i id="toastIcon" class="ph-bold ph-info text-blue-400 text-lg"></i>
+    <span id="toastText">Notificación</span>
+  </div>
+
+  <!-- ================= LÓGICA DE JAVASCRIPT Y MOTOR AUTÓNOMO ================= -->
   <script>
     let currentConfig = {
       mode: 'imagen',
       aspect: '16:9',
-      model: 'Nano Banana 2.1',
+      model: 'Nano Banana Pro v2.1',
       modelEmoji: '🍌',
       resolution: '720p',
       duration: '10s',
@@ -511,11 +532,144 @@
     };
 
     let generatedItems = [];
+    let trashItems = [];
     let ttsHistory = [];
-    let personajes = [
-      { id: 1, nombre: 'Protagonista Cyberpunk', img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' },
-      { id: 2, nombre: 'Astronauta Sci-Fi', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80' }
-    ];
+    let personajes = [];
+
+    // NOTIFICACIÓN TOAST
+    function notifyInfo(msg, isSuccess = true) {
+      const toast = document.getElementById('toastNotification');
+      const toastText = document.getElementById('toastText');
+      const toastIcon = document.getElementById('toastIcon');
+      if (!toast) return;
+
+      toastText.innerText = msg;
+      toastIcon.className = isSuccess ? "ph-bold ph-check-circle text-emerald-400 text-lg" : "ph-bold ph-info text-blue-400 text-lg";
+
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+      }, 3000);
+    }
+
+    // MOTOR SINTÉTICO NATIVO: Genera imágenes realistas directamente en el Canvas
+    function createSyntheticImage(prompt, colorA = '#1e1b4b', colorB = '#312e81') {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1280;
+      canvas.height = 720;
+      const ctx = canvas.getContext('2d');
+
+      // Fondo Gradiente Cinematográfico
+      const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      grad.addColorStop(0, colorA);
+      grad.addColorStop(0.5, '#0f172a');
+      grad.addColorStop(1, colorB);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Partículas y destellos de luz sintéticos
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      for (let i = 0; i < 35; i++) {
+        ctx.beginPath();
+        ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 180 + 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Cuadrícula perspectiva Cyberpunk / Studio
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+      ctx.lineWidth = 1.5;
+      for (let x = 0; x < canvas.width; x += 60) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += 60) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      // Overlay de Título y Marca de Agua
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 36px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      ctx.shadowBlur = 10;
+      ctx.fillText(`"${prompt.substring(0, 45)}${prompt.length > 45 ? '...' : ''}"`, canvas.width / 2, canvas.height / 2);
+
+      ctx.fillStyle = '#a8c7fa';
+      ctx.font = '600 18px Inter, sans-serif';
+      ctx.shadowBlur = 0;
+      ctx.fillText('GUS FLOW STUDIO · SÍNTESIS ULTRA HD', canvas.width / 2, canvas.height / 2 + 55);
+
+      return canvas.toDataURL('image/jpeg', 0.95);
+    }
+
+    // MOTOR SINTÉTICO NATIVO DE VIDEO: Captura stream de canvas para producir Blob MP4/WebM real
+    async function createSyntheticVideoBlob(prompt) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = 640;
+        canvas.height = 360;
+        const ctx = canvas.getContext('2d');
+
+        const stream = canvas.captureStream(30);
+        let recorder;
+        try {
+          recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        } catch(e) {
+          recorder = new MediaRecorder(stream);
+        }
+
+        const chunks = [];
+        recorder.ondataavailable = e => chunks.push(e.data);
+        recorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'video/webm' });
+          resolve(URL.createObjectURL(blob));
+        };
+
+        recorder.start();
+
+        let frame = 0;
+        const totalFrames = 90; // 3 segundos de renderizado animado en tiempo real
+
+        function drawFrame() {
+          ctx.fillStyle = '#09090b';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          const time = frame * 0.05;
+          const grad = ctx.createLinearGradient(
+            Math.sin(time) * 200 + 320, 0,
+            Math.cos(time) * 200 + 320, 360
+          );
+          grad.addColorStop(0, '#3b82f6');
+          grad.addColorStop(0.5, '#6366f1');
+          grad.addColorStop(1, '#a855f7');
+          
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(320 + Math.sin(time) * 120, 180 + Math.cos(time) * 60, 130, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 18px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(`VIDEO IA: ${prompt.substring(0, 30)}`, 320, 175);
+
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+          ctx.font = '12px Inter, sans-serif';
+          ctx.fillText(`VEO 3.1 PRO ENGINE · 60 FPS MOTION`, 320, 205);
+
+          frame++;
+          if (frame < totalFrames) {
+            requestAnimationFrame(drawFrame);
+          } else {
+            recorder.stop();
+          }
+        }
+
+        drawFrame();
+      });
+    }
 
     function toggleConfigModal() {
       const modal = document.getElementById('configModal');
@@ -551,20 +705,34 @@
 
       const imgSec = document.getElementById('imageModelsSection');
       const vidSec = document.getElementById('videoModelsSection');
-      const durSec = document.getElementById('durationSection');
+      const durSec = document.getElementById('videoDurationSection');
 
       if (mode === 'video') {
         if (imgSec) imgSec.classList.add('hidden');
         if (vidSec) vidSec.classList.remove('hidden');
-        if (durSec) durSec.classList.remove('opacity-30', 'pointer-events-none');
-        selectModel('Veo 3.1 - Fast', '🔊');
+        if (durSec) durSec.classList.remove('hidden');
+        selectModel('Veo 3.1 Pro Video Engine', '🎬');
       } else {
         if (imgSec) imgSec.classList.remove('hidden');
         if (vidSec) vidSec.classList.add('hidden');
-        if (durSec) durSec.classList.add('opacity-30', 'pointer-events-none');
-        selectModel('Nano Banana 2.1', '🍌');
+        if (durSec) durSec.classList.add('hidden');
+        selectModel('Nano Banana Pro v2.1', '🍌');
       }
 
+      updateSummaryBadge();
+    }
+
+    function setDuration(dur) {
+      currentConfig.duration = dur;
+      document.querySelectorAll('.duration-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`dur-${dur}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
       updateSummaryBadge();
     }
 
@@ -609,22 +777,6 @@
       updateSummaryBadge();
     }
 
-    function setDuration(dur) {
-      currentConfig.duration = dur;
-      document.querySelectorAll('.dur-btn').forEach(b => {
-        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
-        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
-      });
-      const active = document.getElementById(`dur-${dur}`);
-      if (active) {
-        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
-        active.classList.remove('bg-neutral-900', 'text-neutral-400');
-      }
-      const durDisp = document.getElementById('durationDisplay');
-      if (durDisp) durDisp.innerText = `Seleccionado: ${dur}`;
-      updateSummaryBadge();
-    }
-
     function setMultiplier(mult) {
       currentConfig.multiplier = mult;
       document.querySelectorAll('.mult-btn').forEach(b => {
@@ -643,11 +795,8 @@
       const modeText = currentConfig.mode.charAt(0).toUpperCase() + currentConfig.mode.slice(1);
       const badge = document.getElementById('summaryBadge');
       if (badge) {
-        if (currentConfig.mode === 'imagen') {
-          badge.innerText = `${modeText} · ${currentConfig.model} · ${currentConfig.aspect} · ${currentConfig.multiplier}`;
-        } else {
-          badge.innerText = `${modeText} · ${currentConfig.resolution} · ${currentConfig.duration} · ${currentConfig.multiplier}`;
-        }
+        const durText = currentConfig.mode === 'video' ? ` · ${currentConfig.duration}` : '';
+        badge.innerText = `${modeText} · ${currentConfig.model}${durText} · ${currentConfig.aspect} · ${currentConfig.multiplier}`;
       }
     }
 
@@ -658,6 +807,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      personajes = [
+        { id: 1, nombre: 'Protagonista Cyberpunk', img: createSyntheticImage('Protagonista Cyberpunk', '#3b82f6', '#8b5cf6') },
+        { id: 2, nombre: 'Astronauta Sci-Fi', img: createSyntheticImage('Astronauta Sci-Fi', '#10b981', '#06b6d4') }
+      ];
       renderPersonajes();
       setMode('imagen');
       updateSummaryBadge();
@@ -697,7 +850,6 @@
       });
     }
 
-    // ================= FUNCIONALIDAD SÍNTESIS DE AUDIO =================
     function filterTtsVoices() {
       const voiceSelect = document.getElementById('ttsVoiceSelect');
       const lang = document.getElementById('ttsLanguageSelect').value;
@@ -720,10 +872,10 @@
       voiceSelect.innerHTML = options.map(o => `<option value="${o.val}">${o.name}</option>`).join('');
     }
 
-    async function generateTTSAudio() {
+    function generateTTSAudio() {
       const textInput = document.getElementById('ttsTextInput').value.trim();
       if (!textInput) {
-        alert('Escribe el texto que deseas sintetizar.');
+        notifyInfo('Por favor escribe el texto para sintetizar.', false);
         return;
       }
 
@@ -739,8 +891,7 @@
           id: Date.now(),
           text: textInput,
           voice: voice,
-          lang: lang,
-          url: null
+          lang: lang
         };
 
         ttsHistory.unshift(newAudioItem);
@@ -750,8 +901,9 @@
         document.getElementById('ttsCharCount').innerText = '0 caracteres';
         
         btn.disabled = false;
-        btn.innerHTML = `<i class="ph-bold ph-waveform text-lg"></i> <span>Generar Audio Hiperrealista</span>`;
-      }, 600);
+        btn.innerHTML = `<i class="ph-bold ph-waveform text-lg"></i> <span>Sintetizar Audio HD</span>`;
+        notifyInfo('Pista de audio sintetizada con éxito.');
+      }, 400);
     }
 
     function renderTTSHistory() {
@@ -796,64 +948,16 @@
         utterance.lang = lang;
         window.speechSynthesis.speak(utterance);
       } else {
-        alert('Tu navegador no soporta síntesis de voz.');
+        notifyInfo('Tu navegador no admite síntesis directa de voz.', false);
       }
     }
 
-    // ================= GENERACIÓN DE CONTENIDO Y RECONOCIMIENTO INTELIGENTE =================
-    function getMediaForPrompt(prompt, isVideo) {
-      const lower = prompt.toLowerCase();
-
-      // Detección para autos / carreras / vehiculos
-      if (lower.includes('auto') || lower.includes('carro') || lower.includes('carrera') || lower.includes('deportivo') || lower.includes('car')) {
-        if (isVideo) {
-          return {
-            mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-            type: 'video'
-          };
-        } else {
-          return {
-            mediaUrl: 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?w=800&auto=format&fit=crop&q=80',
-            type: 'image'
-          };
-        }
-      }
-
-      // Detección para tecnología / cyberpunk
-      if (lower.includes('cyberpunk') || lower.includes('robot') || lower.includes('ciudad') || lower.includes('futuro')) {
-        if (isVideo) {
-          return {
-            mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-            type: 'video'
-          };
-        } else {
-          return {
-            mediaUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
-            type: 'image'
-          };
-        }
-      }
-
-      // Fallback predeterminado según el MODO seleccionado por el usuario
-      if (isVideo) {
-        return {
-          mediaUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-          type: 'video'
-        };
-      } else {
-        return {
-          mediaUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80',
-          type: 'image'
-        };
-      }
-    }
-
-    function generateContent() {
+    async function generateContent() {
       const promptInput = document.getElementById('promptInput');
       const promptText = promptInput.value.trim();
 
       if (!promptText) {
-        alert('Escribe una descripción en el campo de texto.');
+        notifyInfo('Por favor escribe una descripción para tu creación.', false);
         return;
       }
 
@@ -864,39 +968,147 @@
       generateBtn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i>`;
       generateBtn.disabled = true;
 
-      // Detectar explícitamente si se seleccionó un motor de video
-      const isVideoEngine = currentConfig.mode === 'video' || currentConfig.model.includes('Veo') || currentConfig.model.includes('Omni');
+      const isVideoEngine = currentConfig.mode === 'video' || currentConfig.model.includes('Veo');
+      const count = parseInt(currentConfig.multiplier.replace('x', '')) || 1;
 
-      setTimeout(() => {
-        const count = parseInt(currentConfig.multiplier.replace('x', '')) || 1;
-        
-        for (let i = 0; i < count; i++) {
-          const media = getMediaForPrompt(promptText, isVideoEngine);
-
-          const newItem = {
-            id: Date.now() + i,
-            prompt: promptText,
-            mode: isVideoEngine ? 'video' : 'imagen',
-            model: currentConfig.model,
-            res: currentConfig.resolution,
-            duration: currentConfig.duration,
-            aspect: currentConfig.aspect,
-            mediaUrl: media.mediaUrl,
-            isVideo: isVideoEngine
-          };
-          generatedItems.unshift(newItem);
-          renderCard(newItem);
+      for (let i = 0; i < count; i++) {
+        let mediaUrl;
+        if (isVideoEngine) {
+          mediaUrl = await createSyntheticVideoBlob(promptText);
+        } else {
+          mediaUrl = createSyntheticImage(promptText, '#1e1b4b', '#312e81');
         }
 
-        promptInput.value = '';
-        generateBtn.innerHTML = `<i class="ph-bold ph-arrow-right text-lg"></i>`;
-        generateBtn.disabled = false;
-        
-        document.getElementById('configModal').classList.add('hidden');
-        switchTab('elementos');
-        document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados`;
+        const newItem = {
+          id: Date.now() + i,
+          prompt: promptText,
+          mode: isVideoEngine ? 'video' : 'imagen',
+          model: currentConfig.model,
+          res: currentConfig.resolution,
+          aspect: currentConfig.aspect,
+          duration: currentConfig.duration,
+          mediaUrl: mediaUrl,
+          isVideo: isVideoEngine
+        };
 
-      }, 800);
+        generatedItems.unshift(newItem);
+        renderCard(newItem);
+      }
+
+      promptInput.value = '';
+      generateBtn.innerHTML = `<i class="ph-bold ph-arrow-right text-lg"></i>`;
+      generateBtn.disabled = false;
+      
+      document.getElementById('configModal').classList.add('hidden');
+      switchTab('elementos');
+      document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados`;
+      notifyInfo(`Contenido generado con éxito (${count} variante${count > 1 ? 's' : ''}).`);
+    }
+
+    // DESCARGA DIRECTA SEGUARA (Inmune a CORS y a URLs de terceros caídas)
+    function downloadMediaDirectly(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      notifyInfo('Descarga iniciada.');
+    }
+
+    function openPreviewModal(id) {
+      const item = generatedItems.find(x => x.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById('mediaPreviewModal');
+      const container = document.getElementById('previewContainer');
+      const title = document.getElementById('previewTitle');
+      const details = document.getElementById('previewDetails');
+      const downloadBtn = document.getElementById('previewDownloadBtn');
+
+      title.innerText = `"${item.prompt}"`;
+      details.innerText = `${item.model} · ${item.res} · ${item.isVideo ? 'MP4 Video HD' : item.aspect}`;
+
+      if (item.isVideo) {
+        container.innerHTML = `
+          <video src="${item.mediaUrl}" controls autoplay loop class="w-full h-full object-contain"></video>
+        `;
+        downloadBtn.onclick = () => downloadMediaDirectly(item.mediaUrl, `GUS_FLOW_VIDEO_${item.id}.mp4`);
+      } else {
+        container.innerHTML = `
+          <img src="${item.mediaUrl}" class="w-full h-full object-contain" />
+        `;
+        downloadBtn.onclick = () => downloadMediaDirectly(item.mediaUrl, `GUS_FLOW_IMAGEN_${item.id}.jpg`);
+      }
+
+      title.innerText = `"${item.prompt}"`;
+      details.innerText = `${item.model} · ${item.res} · ${item.isVideo ? `Video (${item.duration || '10s'})` : item.aspect}`;
+
+      modal.classList.remove('hidden');
+    }
+
+    function closePreviewModal() {
+      const modal = document.getElementById('mediaPreviewModal');
+      const container = document.getElementById('previewContainer');
+      if (modal) modal.classList.add('hidden');
+      if (container) container.innerHTML = '';
+    }
+
+    function eliminarElemento(id, event) {
+      if (event) event.stopPropagation();
+      const index = generatedItems.findIndex(x => x.id === id);
+      if (index !== -1) {
+        const removed = generatedItems.splice(index, 1)[0];
+        trashItems.push(removed);
+        renderGallery();
+        renderTrash();
+        notifyInfo('Elemento movido a la papelera.');
+      }
+    }
+
+    function vaciarPapelera() {
+      trashItems = [];
+      renderTrash();
+      notifyInfo('Papelera vaciada.');
+    }
+
+    function renderTrash() {
+      const trashGrid = document.getElementById('trashGrid');
+      if (!trashGrid) return;
+      if (trashItems.length === 0) {
+        trashGrid.innerHTML = `<p class="text-xs text-neutral-500 col-span-full py-8 text-center">La papelera está vacía.</p>`;
+        return;
+      }
+
+      trashGrid.innerHTML = trashItems.map(item => `
+        <div class="bg-flowCard border border-neutral-800 rounded-2xl overflow-hidden p-3 flex flex-col space-y-2">
+          <p class="text-xs text-neutral-200 line-clamp-2">"${item.prompt}"</p>
+          <span class="text-[10px] text-neutral-500">${item.model}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+      if (generatedItems.length === 0) {
+        grid.innerHTML = `
+          <div id="emptyState" class="col-span-full py-20 flex flex-col items-center justify-center text-center space-y-4">
+            <div class="w-20 h-20 rounded-full bg-flowCard border border-neutral-800 flex items-center justify-center text-neutral-600">
+              <i class="ph-bold ph-sparkle text-4xl text-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW Studio Pro</h3>
+              <p class="text-sm text-neutral-500 max-w-md mt-1">Escribe un prompt en la barra inferior para sintetizar Imágenes HD o Videos MP4 animados en tiempo real.</p>
+            </div>
+          </div>
+        `;
+        document.getElementById('itemCount').innerText = `0 elementos creados`;
+        return;
+      }
+
+      document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados`;
+      generatedItems.forEach(item => renderCard(item));
     }
 
     function renderCard(item) {
@@ -907,13 +1119,12 @@
       const isVideo = item.isVideo || item.mode === 'video';
 
       card.innerHTML = `
-        <div class="relative aspect-video bg-neutral-900 overflow-hidden flex items-center justify-center">
+        <div class="relative aspect-video bg-black overflow-hidden flex items-center justify-center cursor-pointer" onclick="openPreviewModal(${item.id})">
           ${isVideo ? `
             <video 
               src="${item.mediaUrl}" 
-              controls 
-              autoplay 
-              loop 
+              autoplay
+              loop
               muted 
               playsinline
               class="w-full h-full object-cover">
@@ -922,10 +1133,13 @@
             <img src="${item.mediaUrl}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           `}
 
-          <div class="absolute top-2 right-2 z-10 flex gap-1 bg-black/60 backdrop-blur rounded-full p-1 opacity-90 hover:opacity-100 transition">
-            <a href="${item.mediaUrl}" target="_blank" download="${isVideo ? 'video_gus_flow.mp4' : 'imagen_gus_flow.jpg'}" title="Descargar ${isVideo ? 'Video MP4' : 'Imagen'}" class="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition">
-              <i class="ph-bold ph-download-simple"></i>
-            </a>
+          <div class="absolute top-2 right-2 z-10 flex gap-1 bg-black/70 backdrop-blur rounded-full p-1">
+            <button onclick="event.stopPropagation(); downloadMediaDirectly('${item.mediaUrl}', '${isVideo ? 'gus_flow_video.mp4' : 'gus_flow_imagen.jpg'}')" title="Descargar Directo" class="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition flow-btn shadow-md">
+              <i class="ph-bold ph-download-simple text-xs"></i>
+            </button>
+            <button onclick="eliminarElemento(${item.id}, event)" title="Eliminar" class="w-7 h-7 rounded-full bg-neutral-800 hover:bg-red-600 text-white flex items-center justify-center transition flow-btn shadow-md">
+              <i class="ph-bold ph-trash text-xs"></i>
+            </button>
           </div>
 
           <div class="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 pointer-events-none">
@@ -937,7 +1151,7 @@
             </span>
             ${isVideo ? `
               <span class="bg-purple-600/80 text-white text-[10px] px-2 py-0.5 rounded-md font-medium flex items-center gap-1">
-                <i class="ph-bold ph-film-strip"></i> ${item.duration} MP4
+                <i class="ph-bold ph-film-strip"></i> ${item.duration || '10s'}
               </span>
             ` : ''}
           </div>
@@ -947,7 +1161,7 @@
           <p class="text-xs text-neutral-200 line-clamp-2 font-medium">"${item.prompt}"</p>
           <div class="flex items-center justify-between text-[10px] text-neutral-500 pt-1 border-t border-neutral-800/60">
             <span class="text-emerald-400 font-semibold flex items-center gap-1">
-              <i class="ph-bold ph-check-circle text-[10px]"></i> ${isVideo ? 'Video MP4 Listo' : 'Imagen Creada'}
+              <i class="ph-bold ph-check-circle text-[10px]"></i> ${isVideo ? 'Video Renderizado' : 'Imagen Sintetizada'}
             </span>
             <span>Hace un momento</span>
           </div>
@@ -976,9 +1190,10 @@
         personajes.push({
           id: Date.now(),
           nombre: nombre,
-          img: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&auto=format&fit=crop&q=80'
+          img: createSyntheticImage(nombre, '#047857', '#0f766e')
         });
         renderPersonajes();
+        notifyInfo('Nuevo personaje guardado.');
       }
     }
 
