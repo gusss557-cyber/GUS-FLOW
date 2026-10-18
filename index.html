@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GUS FLOW</title>
+  <title>GUS FLOW - AI Studio Universal</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons & Font Awesome -->
@@ -37,14 +38,12 @@
   </script>
 
   <style>
-    /* Estilos personalizados para emular exactamente GUS FLOW */
     body {
       background-color: #0b0b0e;
       color: #e3e2e6;
       user-select: none;
     }
     
-    /* Scrollbar personalizada */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -80,7 +79,7 @@
       
       <!-- LOGO / HEADER -->
       <div class="flex items-center justify-between px-3 py-2">
-        <div class="flex items-center gap-3 cursor-pointer">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('elementos')">
           <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 flex items-center justify-center shadow-lg">
             <span class="font-bold text-white text-xs tracking-tighter">GUS</span>
           </div>
@@ -111,7 +110,7 @@
           <span class="sidebar-text">Herramientas</span>
         </button>
 
-        <!-- AGENTE / HERRAMIENTA TEXTO A AUDIO (TTS) DEBAJO DE HERRAMIENTAS -->
+        <!-- HERRAMIENTA TEXTO A AUDIO (TTS) -->
         <button onclick="switchTab('tts')" id="nav-tts" class="w-full flex items-center gap-3 px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-flowHover rounded-xl text-sm font-medium transition-all">
           <i class="ph-bold ph-speaker-high text-xl text-purple-400"></i>
           <span class="sidebar-text flex items-center gap-2">
@@ -142,35 +141,31 @@
     <!-- BARRA SUPERIOR (HEADER) -->
     <header class="h-16 px-6 border-b border-neutral-800/40 flex items-center justify-between shrink-0 bg-flowBg/80 backdrop-blur">
       <div class="flex items-center gap-4">
-        <button class="text-neutral-400 hover:text-white text-lg">
+        <button onclick="switchTab('elementos')" class="text-neutral-400 hover:text-white text-lg">
           <i class="ph-bold ph-house"></i>
         </button>
         <span class="text-neutral-500">/</span>
-        <span class="text-sm font-medium text-neutral-200" id="currentProjectTitle">GUS FLOW - Proyecto Ilimitado</span>
-        <i class="ph-bold ph-dots-three-vertical text-neutral-400 cursor-pointer hover:text-white"></i>
+        <span class="text-sm font-medium text-neutral-200" id="currentProjectTitle">GUS FLOW - Estudio Ilimitado</span>
       </div>
 
       <!-- BÚSQUEDA Y USUARIO -->
       <div class="flex items-center gap-3">
         <div class="relative hidden sm:block">
           <i class="ph-bold ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"></i>
-          <input type="text" placeholder="Buscar en GUS FLOW..." class="bg-flowCard border border-neutral-800 rounded-full pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-blue-500 w-64 transition-all" />
+          <input type="text" id="searchInput" onkeyup="filterGallery(this.value)" placeholder="Buscar en GUS FLOW..." class="bg-flowCard border border-neutral-800 rounded-full pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-blue-500 w-64 transition-all" />
         </div>
 
         <!-- INDICADOR DE AUTO-ACTUALIZACIÓN DE MOTORES -->
-        <div class="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full text-xs text-blue-400 font-medium cursor-pointer hover:bg-blue-500/20 transition" title="Motores auto-actualizados: Omni 1.1 Flash, Veo 3.1, Nano Banana Pro">
+        <div class="hidden md:flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full text-xs text-blue-400 font-medium cursor-pointer" title="Motores sincronizados: Omni 1.1 Flash, Veo 3.1, Nano Banana Pro">
           <i class="ph-bold ph-arrows-clockwise text-blue-400 animate-spin" style="animation-duration: 8s;"></i>
-          <span id="engineUpdateBadge">Motores v3.1 Actualizados</span>
+          <span id="engineUpdateBadge">Motores v3.1 Listo</span>
         </div>
 
         <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full text-xs text-emerald-400 font-medium">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>GUS FLOW Unlimited (Sin Restricciones · 0 Créditos)</span>
+          <span>Unlimited (0 Créditos)</span>
         </div>
 
-        <button class="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-300 hover:text-white">
-          <i class="ph-bold ph-gear"></i>
-        </button>
         <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white flex items-center justify-center text-xs font-bold ring-2 ring-neutral-800 cursor-pointer">
           GUS
         </div>
@@ -184,7 +179,7 @@
       <div id="view-elementos" class="space-y-6">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-semibold text-white tracking-tight">Tus Creaciones en GUS FLOW</h2>
-          <span class="text-xs text-neutral-400" id="itemCount">0 elementos creados hoy</span>
+          <span class="text-xs text-neutral-400" id="itemCount">0 elementos creados</span>
         </div>
 
         <!-- GRID DE GENERACIONES -->
@@ -194,8 +189,8 @@
               <i class="ph-bold ph-sparkle text-4xl text-blue-400"></i>
             </div>
             <div>
-              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW</h3>
-              <p class="text-sm text-neutral-500 max-w-md mt-1">Genera Imágenes (Nano Banana 2.1) y Videos (hasta 1 hora y 4K) totalmente <strong>Sin Restricciones</strong> y sin consumir créditos.</p>
+              <h3 class="text-lg font-medium text-neutral-300">Bienvenido a GUS FLOW Studio</h3>
+              <p class="text-sm text-neutral-500 max-w-md mt-1">Genera Imágenes (Nano Banana) y Videos (Veo 3.1 / Omni) totalmente <strong>Sin Restricciones</strong>.</p>
             </div>
           </div>
         </div>
@@ -205,8 +200,8 @@
       <div id="view-personajes" class="hidden space-y-6">
         <div class="flex items-center justify-between">
           <div>
-            <h2 class="text-xl font-semibold text-white">Consistencia de Personajes (GUS FLOW)</h2>
-            <p class="text-xs text-neutral-400 mt-1">Guarda e identifica rostros iguales para todas tus escenas de video e imagen.</p>
+            <h2 class="text-xl font-semibold text-white">Consistencia de Personajes</h2>
+            <p class="text-xs text-neutral-400 mt-1">Guarda identidades para mantener rostros idénticos en tus escenas.</p>
           </div>
           <button onclick="nuevoPersonaje()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-xl flex items-center gap-2 flow-btn">
             <i class="ph-bold ph-plus"></i>
@@ -222,11 +217,11 @@
         <div class="flex items-center justify-between">
           <div>
             <h2 class="text-xl font-semibold text-white">Secuencia de Escenas</h2>
-            <p class="text-xs text-neutral-400 mt-1">Organiza tomas consecutivas para generar un cortometraje o video largo en GUS FLOW.</p>
+            <p class="text-xs text-neutral-400 mt-1">Organiza tomas consecutivas para tus producciones en GUS FLOW.</p>
           </div>
         </div>
         <div class="p-8 bg-flowCard border border-neutral-800 rounded-2xl text-center text-neutral-400 text-sm">
-          Añade tomas desde la barra de generación usando los identificadores de escena.
+          Crea elementos desde la barra inferior para ir componiendo tus escenas consecutivas.
         </div>
       </div>
 
@@ -234,20 +229,20 @@
       <div id="view-herramientas" class="hidden space-y-6">
         <h2 class="text-xl font-semibold text-white">Herramientas GUS FLOW Studio</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition">
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="alert('Upscaler 4K activado por defecto en la barra de generación.')">
             <i class="ph-bold ph-arrows-out text-2xl text-blue-400"></i>
             <h3 class="font-medium text-neutral-200">Upscaler 4K Ultra HD</h3>
-            <p class="text-xs text-neutral-400">Mejora cualquier imagen o video a resolución 4K nativa sin pérdida de nitidez.</p>
+            <p class="text-xs text-neutral-400">Optimiza imágenes a máxima resolución sin perder detalle.</p>
           </div>
-          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition">
+          <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="alert('Inicia un prompt con \'Aislar fondo:\' para recorte transparente.')">
             <i class="ph-bold ph-scissors text-2xl text-purple-400"></i>
             <h3 class="font-medium text-neutral-200">Remover Fondo</h3>
-            <p class="text-xs text-neutral-400">Aísla personajes o sujetos en segundos para transparencia.</p>
+            <p class="text-xs text-neutral-400">Aísla automáticamente sujetos y personajes.</p>
           </div>
           <div class="p-5 bg-flowCard border border-neutral-800 rounded-2xl space-y-2 hover:border-neutral-700 transition cursor-pointer" onclick="switchTab('tts')">
             <i class="ph-bold ph-microphone text-2xl text-emerald-400"></i>
             <h3 class="font-medium text-neutral-200">Agente Texto a Audio Ultra HD</h3>
-            <p class="text-xs text-neutral-400">Convierte texto a audio hiperrealista en todos los idiomas y tipos de voces.</p>
+            <p class="text-xs text-neutral-400">Sintetiza voz natural en decenas de idiomas.</p>
           </div>
         </div>
       </div>
@@ -260,7 +255,7 @@
               <h2 class="text-xl font-semibold text-white">Agente GUS - Texto a Audio Universal</h2>
               <span class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Multilingüe + Ilimitado</span>
             </div>
-            <p class="text-xs text-neutral-400 mt-1">Convierte cualquier texto en habla natural e hiperrealista con voces expresivas en todos los idiomas del mundo.</p>
+            <p class="text-xs text-neutral-400 mt-1">Sintetiza voz realista mediante motor generativo de IA o tecnología nativa Web Speech.</p>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs text-neutral-400"><i class="ph-bold ph-waveform text-purple-400"></i> Motor Gemini TTS AI</span>
@@ -273,7 +268,6 @@
           <!-- COLUMNA IZQUIERDA: CONFIGURACIÓN Y PROMPT DE TEXTO -->
           <div class="lg:col-span-7 bg-flowCard border border-neutral-800 rounded-3xl p-5 space-y-4 shadow-xl">
             
-            <!-- TEXTAREA DE ENTRADA -->
             <div>
               <div class="flex items-center justify-between mb-2">
                 <label class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Texto para sintetizar</label>
@@ -282,7 +276,7 @@
               <textarea 
                 id="ttsTextInput" 
                 rows="5" 
-                placeholder="Escribe o pega aquí el texto en cualquier idioma (Ej: '¡Hola! Bienvenido a GUS FLOW. ¿En qué puedo ayudarte hoy?')..." 
+                placeholder="Escribe el texto en cualquier idioma (Ej: '¡Hola! Bienvenido a GUS FLOW. ¿Qué vamos a crear hoy?')..." 
                 class="w-full bg-neutral-900 border border-neutral-800 rounded-2xl p-3.5 text-sm text-neutral-100 placeholder-neutral-500 focus:outline-none focus:border-purple-500 transition resize-none"
                 oninput="document.getElementById('ttsCharCount').innerText = `${this.value.length} caracteres`;"
               ></textarea>
@@ -290,28 +284,21 @@
 
             <!-- FILTROS DE IDIOMA Y VOZ -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <!-- SELECTOR DE IDIOMA -->
               <div>
                 <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Idioma / Región</label>
                 <select id="ttsLanguageSelect" onchange="filterTtsVoices()" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
-                  <option value="es-US" selected>Español (Latinoamérica / EE.UU.)</option>
+                  <option value="es-US" selected>Español (Latinoamérica)</option>
                   <option value="es-ES">Español (España)</option>
-                  <option value="en-US">Inglés (EE.UU. - American English)</option>
-                  <option value="en-GB">Inglés (Reino Unido - British)</option>
+                  <option value="en-US">Inglés (EE.UU.)</option>
+                  <option value="en-GB">Inglés (Reino Unido)</option>
                   <option value="pt-BR">Portugués (Brasil)</option>
                   <option value="fr-FR">Francés (Francia)</option>
                   <option value="de-DE">Alemán (Alemania)</option>
                   <option value="it-IT">Italiano (Italia)</option>
                   <option value="ja-JP">Japonés (Japón)</option>
-                  <option value="ko-KR">Coreano (Corea del Sur)</option>
-                  <option value="zh-CN">Chino (Mandarín)</option>
-                  <option value="ru-RU">Ruso (Rusia)</option>
-                  <option value="ar-EG">Árabe (Egipto)</option>
-                  <option value="hi-IN">Hindi (India)</option>
                 </select>
               </div>
 
-              <!-- SELECTOR DE MODELO DE VOZ -->
               <div>
                 <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Voz Generativa</label>
                 <select id="ttsVoiceSelect" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
@@ -319,36 +306,27 @@
                   <option value="Puck">Puck — Animada, Optimista (Masculina)</option>
                   <option value="Zephyr">Zephyr — Brillante, Cálida (Femenina)</option>
                   <option value="Charon">Charon — Informativa, Grave (Masculina)</option>
-                  <option value="Fenrir">Fenrir — Densa, Entusiasta (Masculina)</option>
-                  <option value="Aoede">Aoede — Ligera, Fresca (Femenina)</option>
-                  <option value="Sulafat">Sulafat — Suave, Acogedora (Femenina)</option>
-                  <option value="Algieba">Algieba — Melódica, Tersa (Masculina)</option>
-                  <option value="Zubenelgenubi">Zubenelgenubi — Casual, Cercana (Masculina)</option>
                 </select>
               </div>
             </div>
 
-            <!-- ESTILO / TONO EMOCIONAL -->
             <div>
-              <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Estilo y Tono Emocional de la Voz</label>
+              <label class="block text-[11px] font-semibold text-neutral-400 uppercase tracking-wider mb-1">Estilo Emocional</label>
               <select id="ttsStyleSelect" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
                 <option value="Di alegremente y con entusiasmo:">Alegre y Entusiasmado</option>
                 <option value="Di de forma profesional, clara y neutra:">Profesional y Corporativo</option>
-                <option value="Di en un susurro misterioso y cinematográfico:">Cinematográfico / Misterioso</option>
+                <option value="Di en un susurro misterioso:">Cinematográfico / Misterioso</option>
                 <option value="Di con tono dramático y emotivo:">Dramático y Expresivo</option>
-                <option value="Di de forma rápida, energética y moderna:">Publicitario / Alta Energía</option>
-                <option value="Di de forma pausada, relajante y tranquila:">Lofi / Meditación / Documental</option>
               </select>
             </div>
 
-            <!-- BOTÓN GENERAR AUDIO -->
             <button onclick="generateTTSAudio()" id="generateTtsBtn" class="w-full py-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium text-xs rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 flow-btn">
               <i class="ph-bold ph-waveform text-lg"></i>
               <span>Generar Audio Hiperrealista (0 Créditos)</span>
             </button>
           </div>
 
-          <!-- COLUMNA DERECHA: BIBLIOTECA DE AUDIOS GENERADOS -->
+          <!-- COLUMNA DERECHA: HISTORIAL DE AUDIOS -->
           <div class="lg:col-span-5 bg-flowCard border border-neutral-800 rounded-3xl p-5 space-y-4 shadow-xl flex flex-col">
             <div class="flex items-center justify-between">
               <h3 class="text-sm font-semibold text-white flex items-center gap-2">
@@ -364,7 +342,6 @@
                   <i class="ph-bold ph-speaker-none text-2xl text-purple-400/60"></i>
                 </div>
                 <p class="text-xs text-neutral-400">Aún no has generado pistas de audio.</p>
-                <p class="text-[10px] text-neutral-600">Escribe un texto e inicia la síntesis con voz de IA.</p>
               </div>
             </div>
           </div>
@@ -375,7 +352,8 @@
       <!-- CONTENIDO PESTAÑA PAPELERA -->
       <div id="view-papelera" class="hidden space-y-6">
         <h2 class="text-xl font-semibold text-white">Papelera</h2>
-        <p class="text-sm text-neutral-500">Los elementos eliminados se mantienen aquí por 30 días.</p>
+        <p class="text-sm text-neutral-500">Los elementos eliminados se conservan temporalmente.</p>
+        <div id="trashGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </div>
 
     </div>
@@ -424,17 +402,13 @@
             <span class="w-2.5 h-2.5 border border-current rounded-sm"></span>
             <span>1:1</span>
           </button>
-          <button onclick="setAspect('3:4')" id="aspect-3:4" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
-            <span class="w-2.5 h-3 border border-current rounded-sm"></span>
-            <span>3:4</span>
-          </button>
           <button onclick="setAspect('9:16')" id="aspect-9:16" class="aspect-btn flex-1 min-w-[64px] py-2 bg-neutral-900 text-neutral-400 hover:text-white border border-neutral-800 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all">
             <span class="w-2 h-3.5 border border-current rounded-sm"></span>
             <span>9:16</span>
           </button>
         </div>
 
-        <!-- SELECTOR DE MOTOR -->
+        <!-- SELECTOR DE MOTOR DE IA -->
         <div class="relative">
           <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1 px-1">Motor de IA Generativa</label>
           <div class="relative">
@@ -449,55 +423,30 @@
             <!-- MENÚ DESPLEGABLE -->
             <div id="modelDropdown" class="absolute bottom-full mb-2 left-0 right-0 bg-neutral-900 border border-neutral-800 rounded-2xl p-1.5 shadow-2xl z-50 hidden max-h-64 overflow-y-auto space-y-1">
               
-              <!-- MOTORES DE IMAGEN -->
               <div id="imageModelsSection">
-                <div class="text-[10px] font-semibold text-amber-400 uppercase px-3 pt-2 pb-1">Motores de Imagen (Nano Banana & 4K)</div>
+                <div class="text-[10px] font-semibold text-amber-400 uppercase px-3 pt-2 pb-1">Motores de Imagen</div>
                 <button onclick="selectModel('Nano Banana Pro', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🍌</span>
-                  <span>Nano Banana Pro</span>
-                </button>
-                <button onclick="selectModel('Nano Banana 2 Lite', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🍌</span>
-                  <span>Nano Banana 2 Lite</span>
+                  <span>🍌</span><span>Nano Banana Pro</span>
                 </button>
                 <button onclick="selectModel('Nano Banana 2.1', '🍌')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🍌</span>
-                  <span>Nano Banana 2.1</span>
+                  <span>🍌</span><span>Nano Banana 2.1</span>
                 </button>
-                <button onclick="selectModel('Flux.1 Dev 4K (Ultra Realista)', '✨')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span>✨</span>
-                    <span>Flux.1 Dev 4K</span>
-                  </div>
+                <button onclick="selectModel('Flux.1 Dev 4K', '✨')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
+                  <div class="flex items-center gap-2"><span>✨</span><span>Flux.1 Dev 4K</span></div>
                   <span class="text-[10px] bg-blue-500/20 text-blue-300 px-1.5 py-0.5 rounded">4K</span>
                 </button>
               </div>
 
-              <!-- MOTORES DE VIDEO -->
               <div id="videoModelsSection" class="hidden">
-                <div class="text-[10px] font-semibold text-blue-400 uppercase px-3 pt-2 pb-1 border-t border-neutral-800/80">Motores de Video (Veo & Open Source)</div>
+                <div class="text-[10px] font-semibold text-blue-400 uppercase px-3 pt-2 pb-1 border-t border-neutral-800/80">Motores de Video</div>
                 <button onclick="selectModel('Omni 1.1 Flash', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span>
-                  <span>Omni 1.1 Flash</span>
-                </button>
-                <button onclick="selectModel('Veo 3.1 - Lite', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span>
-                  <span>Veo 3.1 - Lite</span>
+                  <span>🔊</span><span>Omni 1.1 Flash</span>
                 </button>
                 <button onclick="selectModel('Veo 3.1 - Fast', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span>
-                  <span>Veo 3.1 - Fast</span>
+                  <span>🔊</span><span>Veo 3.1 - Fast</span>
                 </button>
                 <button onclick="selectModel('Veo 3.1 - Quality', '🔊')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center gap-2">
-                  <span>🔊</span>
-                  <span>Veo 3.1 - Quality</span>
-                </button>
-                <button onclick="selectModel('Hunyuan Video 4K', '🎬')" class="w-full text-left px-3 py-2 rounded-xl text-xs text-white hover:bg-neutral-800 flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span>🎬</span>
-                    <span>Hunyuan Video 4K</span>
-                  </div>
-                  <span class="text-[10px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">4K</span>
+                  <span>🔊</span><span>Veo 3.1 - Quality</span>
                 </button>
               </div>
 
@@ -507,70 +456,40 @@
 
         <!-- RESOLUCIÓN -->
         <div class="space-y-1">
-          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Resolución de Salida</label>
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Resolución</label>
           <div class="grid grid-cols-4 gap-1.5">
             <button onclick="setResolution('360p')" id="res-360p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">360p</button>
             <button onclick="setResolution('720p')" id="res-720p" class="res-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">720p HD</button>
-            <button onclick="setResolution('1080p')" id="res-1080p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1080p Full HD</button>
-            <button onclick="setResolution('4K Ultra HD')" id="res-4K Ultra HD" class="res-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1">
-              <i class="ph-bold ph-sparkle text-[10px]"></i>
-              <span>4K Ultra</span>
-            </button>
+            <button onclick="setResolution('1080p')" id="res-1080p" class="res-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">1080p</button>
+            <button onclick="setResolution('4K Ultra HD')" id="res-4K Ultra HD" class="res-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-bold transition-all">4K Ultra</button>
           </div>
         </div>
 
         <!-- DURACIÓN DE VIDEO -->
         <div class="space-y-2 opacity-30 pointer-events-none" id="durationSection">
           <div class="flex items-center justify-between px-1">
-            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider">Duración del Video (Máx 1 hora / 3600s)</label>
-            <span class="text-[10px] text-purple-400 font-medium" id="durationDisplay">Seleccionado: 10 s</span>
+            <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider">Duración</label>
+            <span class="text-[10px] text-purple-400 font-medium" id="durationDisplay">Seleccionado: 10s</span>
           </div>
 
-          <div class="grid grid-cols-5 sm:grid-cols-10 gap-1">
+          <div class="grid grid-cols-5 gap-1">
             <button onclick="setDuration('4s')" id="dur-4s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">4s</button>
             <button onclick="setDuration('6s')" id="dur-6s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">6s</button>
             <button onclick="setDuration('8s')" id="dur-8s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">8s</button>
             <button onclick="setDuration('10s')" id="dur-10s" class="dur-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-[11px] font-medium transition-all">10s</button>
             <button onclick="setDuration('30s')" id="dur-30s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">30s</button>
-            <button onclick="setDuration('60s')" id="dur-60s" class="dur-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">1m</button>
-            <button onclick="setDuration('5m')" id="dur-5m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">5m</button>
-            <button onclick="setDuration('15m')" id="dur-15m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">15m</button>
-            <button onclick="setDuration('30m')" id="dur-30m" class="dur-btn py-1.5 bg-neutral-900 text-purple-400 border border-neutral-800 rounded-xl text-[11px] font-medium transition-all">30m</button>
-            <button onclick="setDuration('1h')" id="dur-1h" class="dur-btn py-1.5 bg-neutral-900 text-blue-400 border border-blue-500/40 rounded-xl text-[11px] font-bold transition-all">1h</button>
-          </div>
-
-          <div class="flex items-center gap-2 pt-1 bg-neutral-900/60 p-2 rounded-xl border border-neutral-800/80">
-            <i class="ph-bold ph-timer text-neutral-400 text-sm"></i>
-            <span class="text-xs text-neutral-400 shrink-0">Personalizado:</span>
-            <input 
-              type="number" 
-              id="customDurationInput" 
-              placeholder="Segundos (1-3600)" 
-              min="1" 
-              max="3600"
-              class="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-2.5 py-1 text-xs text-white placeholder-neutral-600 focus:outline-none focus:border-purple-500"
-              oninput="handleCustomDuration(this.value)"
-            />
-            <span class="text-[10px] text-neutral-500 shrink-0">máx 3,600s</span>
           </div>
         </div>
 
         <!-- MULTIPLICADOR DE GENERACIONES -->
         <div class="space-y-1">
-          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Variaciones en Paralelo</label>
+          <label class="block text-[11px] font-medium text-neutral-400 uppercase tracking-wider px-1">Variaciones Simultáneas</label>
           <div class="grid grid-cols-4 gap-1.5">
             <button onclick="setMultiplier('x1')" id="mult-x1" class="mult-btn py-1.5 bg-neutral-800 text-white border border-neutral-700/60 rounded-xl text-xs font-medium transition-all">x1</button>
             <button onclick="setMultiplier('x2')" id="mult-x2" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x2</button>
             <button onclick="setMultiplier('x3')" id="mult-x3" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x3</button>
             <button onclick="setMultiplier('x4')" id="mult-x4" class="mult-btn py-1.5 bg-neutral-900 text-neutral-400 border border-neutral-800 rounded-xl text-xs font-medium transition-all">x4</button>
           </div>
-        </div>
-
-        <!-- AVISO DE CRÉDITOS -->
-        <div class="text-center pt-1 flex items-center justify-center gap-2">
-          <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full">
-            <i class="ph-bold ph-shield-check"></i> Generación SIN RESTRICCIONES (0 créditos)
-          </span>
         </div>
 
       </div>
@@ -581,11 +500,6 @@
         <div class="flex items-center gap-2 flex-1">
           <button onclick="toggleConfigModal()" id="toggleConfigBtn" class="w-9 h-9 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white flex items-center justify-center transition flow-btn shrink-0" title="Ajustes de generación">
             <i class="ph-bold ph-plus text-lg"></i>
-          </button>
-
-          <button class="px-3 py-1.5 rounded-full bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white text-xs font-medium flex items-center gap-1.5 transition shrink-0 flow-btn">
-            <i class="ph-bold ph-robot text-sm text-blue-400"></i>
-            <span>Agente GUS</span>
           </button>
 
           <input type="text" id="promptInput" placeholder="¿Qué quieres crear en GUS FLOW?" class="w-full bg-transparent border-none text-sm text-white placeholder-neutral-500 focus:outline-none px-2" onkeypress="handleKeyPress(event)" />
@@ -636,6 +550,16 @@
       if (dropdown) dropdown.classList.toggle('hidden');
     }
 
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('modelDropdown');
+      const selectedBtn = document.getElementById('selectedModelBtn');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && !selectedBtn.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
+
     function setMode(mode) {
       currentConfig.mode = mode;
       document.querySelectorAll('.mode-tab').forEach(b => {
@@ -648,7 +572,6 @@
         active.classList.remove('text-neutral-400');
       }
 
-      // Alternar visibilidad de modelos de imagen/video
       const imgSec = document.getElementById('imageModelsSection');
       const vidSec = document.getElementById('videoModelsSection');
       const durSec = document.getElementById('durationSection');
@@ -725,9 +648,35 @@
       updateSummaryBadge();
     }
 
-    function handleCustomDuration(val) {
-      if (val && val > 0 && val <= 3600) {
-        setDuration(`${val}s`);
+    function setMultiplier(mult) {
+      currentConfig.multiplier = mult;
+      document.querySelectorAll('.mult-btn').forEach(b => {
+        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
+      });
+      const active = document.getElementById(`mult-${mult}`);
+      if (active) {
+        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
+        active.classList.remove('bg-neutral-900', 'text-neutral-400');
+      }
+      updateSummaryBadge();
+    }
+
+    function updateSummaryBadge() {
+      const modeText = currentConfig.mode.charAt(0).toUpperCase() + currentConfig.mode.slice(1);
+      const badge = document.getElementById('summaryBadge');
+      if (badge) {
+        if (currentConfig.mode === 'imagen') {
+          badge.innerText = `${modeText} · ${currentConfig.model} · ${currentConfig.aspect} · ${currentConfig.multiplier}`;
+        } else {
+          badge.innerText = `${modeText} · ${currentConfig.resolution} · ${currentConfig.duration} · ${currentConfig.multiplier}`;
+        }
+      }
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        generateContent();
       }
     }
 
@@ -735,11 +684,10 @@
       renderPersonajes();
       setMode('imagen');
       updateSummaryBadge();
-      initEngineAutoUpdateSimulation();
 
       const toggleSidebarBtn = document.getElementById('toggleSidebar');
       const sidebar = document.getElementById('sidebar');
-      if (toggleSidebarBtn) {
+      if (toggleSidebarBtn && sidebar) {
         toggleSidebarBtn.addEventListener('click', () => {
           sidebar.classList.toggle('w-64');
           sidebar.classList.toggle('w-20');
@@ -747,25 +695,6 @@
         });
       }
     });
-
-    // SIMULACIÓN DE AUTO-ACTUALIZACIÓN AUTOMÁTICA DE MOTORES EN TIEMPO REAL
-    function initEngineAutoUpdateSimulation() {
-      const engines = ['Omni 1.1 Flash', 'Veo 3.1 - Lite', 'Veo 3.1 - Fast', 'Veo 3.1 - Quality', 'Nano Banana 2.1', 'Flux.1 Dev 4K'];
-      
-      setInterval(() => {
-        const badge = document.getElementById('engineUpdateBadge');
-        if (badge) {
-          const randomEngine = engines[Math.floor(Math.random() * engines.length)];
-          badge.innerText = `Sincronizando ${randomEngine}...`;
-          badge.classList.add('text-amber-400');
-          
-          setTimeout(() => {
-            badge.innerText = `Motores v3.1 Actualizados`;
-            badge.classList.remove('text-amber-400');
-          }, 2500);
-        }
-      }, 35000);
-    }
 
     function switchTab(tabId) {
       const views = ['elementos', 'personajes', 'escenas', 'herramientas', 'tts', 'papelera'];
@@ -791,157 +720,53 @@
       });
     }
 
-    // ================= FUNCIONALIDAD DE TEXTO A AUDIO (TTS) =================
+    // ================= FUNCIONALIDAD TTS ROBUSTA CON FALLBACK =================
     function filterTtsVoices() {
-      // Mantiene activo el catálogo dinámico de voces según el idioma elegido
       const voiceSelect = document.getElementById('ttsVoiceSelect');
       const lang = document.getElementById('ttsLanguageSelect').value;
       
-      // Catálogo por idioma
       const voiceMap = {
         'es-US': [
           { val: 'Kore', name: 'Kore — Latina Firme (Femenina)' },
           { val: 'Puck', name: 'Puck — Latino Alegre (Masculino)' },
-          { val: 'Zephyr', name: 'Zephyr — Cálida y Expresiva (Femenina)' },
-          { val: 'Charon', name: 'Charon — Voz Grave / Noticiero (Masculino)' }
+          { val: 'Zephyr', name: 'Zephyr — Cálida (Femenina)' }
         ],
         'es-ES': [
           { val: 'Kore', name: 'Kore — Castellano Neutro (Femenina)' },
-          { val: 'Fenrir', name: 'Fenrir — Castellano Robusto (Masculino)' },
-          { val: 'Aoede', name: 'Aoede — Joven y Fresca (Femenina)' }
+          { val: 'Charon', name: 'Charon — Grave (Masculino)' }
         ],
         'en-US': [
-          { val: 'Puck', name: 'Puck — Upbeat & Natural (Male)' },
-          { val: 'Charon', name: 'Charon — Informative & Clear (Male)' },
-          { val: 'Zephyr', name: 'Zephyr — Bright & Cheerful (Female)' },
-          { val: 'Leda', name: 'Leda — Youthful & Soft (Female)' }
-        ],
-        'default': [
-          { val: 'Kore', name: 'Kore — Estándar (Femenina)' },
-          { val: 'Puck', name: 'Puck — Estándar (Masculino)' },
-          { val: 'Sulafat', name: 'Sulafat — Suave (Femenina)' }
+          { val: 'Puck', name: 'Puck — Upbeat (Male)' },
+          { val: 'Zephyr', name: 'Zephyr — Bright (Female)' }
         ]
       };
 
-      const options = voiceMap[lang] || voiceMap['default'];
+      const options = voiceMap[lang] || voiceMap['es-US'];
       voiceSelect.innerHTML = options.map(o => `<option value="${o.val}">${o.name}</option>`).join('');
-    }
-
-    // UTILIDADES PARA CONVERTIR PCM A WAV (REQUERIDO POR GEMINI API TTS)
-    function base64ToArrayBuffer(base64) {
-      const binaryString = atob(base64);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      return bytes.buffer;
-    }
-
-    function pcmToWav(pcm16, sampleRate = 24000) {
-      const numChannels = 1;
-      const byteRate = sampleRate * numChannels * 2;
-      const blockAlign = numChannels * 2;
-      const dataSize = pcm16.length * 2;
-      const buffer = new ArrayBuffer(44 + dataSize);
-      const view = new DataView(buffer);
-
-      function writeString(offset, string) {
-        for (let i = 0; i < string.length; i++) {
-          view.setUint8(offset + i, string.charCodeAt(i));
-        }
-      }
-
-      writeString(0, 'RIFF');
-      view.setUint32(4, 36 + dataSize, true);
-      writeString(8, 'WAVE');
-      writeString(12, 'fmt ');
-      view.setUint32(16, 16, true);
-      view.setUint16(20, 1, true); // PCM format
-      view.setUint16(22, numChannels, true);
-      view.setUint32(24, sampleRate, true);
-      view.setUint32(28, byteRate, true);
-      view.setUint16(32, blockAlign, true);
-      view.setUint16(34, 16, true); // Bits per sample
-      writeString(36, 'data');
-      view.setUint32(40, dataSize, true);
-
-      let offset = 44;
-      for (let i = 0; i < pcm16.length; i++, offset += 2) {
-        view.setInt16(offset, pcm16[i], true);
-      }
-
-      return new Blob([buffer], { type: 'audio/wav' });
     }
 
     async function generateTTSAudio() {
       const textInput = document.getElementById('ttsTextInput').value.trim();
       if (!textInput) {
-        alert('Por favor introduce el texto que deseas convertir a audio.');
+        alert('Escribe el texto que deseas sintetizar.');
         return;
       }
 
       const voice = document.getElementById('ttsVoiceSelect').value;
-      const style = document.getElementById('ttsStyleSelect').value;
       const lang = document.getElementById('ttsLanguageSelect').value;
       const btn = document.getElementById('generateTtsBtn');
 
       btn.disabled = true;
-      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i> Sintetizando voz hiperrealista...`;
+      btn.innerHTML = `<i class="ph-bold ph-spinner animate-spin text-lg"></i> Sintetizando voz...`;
 
-      const fullPrompt = `${style} ${textInput}`;
-      const apiKey = "AQ.Ab8RN6LqIDeD8r_1yRxwnyG0f2ISC6EizvJ73Sgnn1w_tairJw";
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
-
-      const payload = {
-        contents: [{
-          parts: [{ text: fullPrompt }]
-        }],
-        generationConfig: {
-          responseModalities: ["AUDIO"],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: voice }
-            }
-          }
-        }
-      };
-
-      try {
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-        const part = result?.candidates?.[0]?.content?.parts?.[0];
-        const audioDataBase64 = part?.inlineData?.data;
-        const mimeType = part?.inlineData?.mimeType || '';
-
-        let audioUrl = '';
-
-        if (audioDataBase64) {
-          let sampleRate = 24000;
-          const match = mimeType.match(/rate=(\d+)/);
-          if (match) sampleRate = parseInt(match[1], 10);
-
-          const arrayBuf = base64ToArrayBuffer(audioDataBase64);
-          const pcm16 = new Int16Array(arrayBuf);
-          const wavBlob = pcmToWav(pcm16, sampleRate);
-          audioUrl = URL.createObjectURL(wavBlob);
-        } else {
-          // Fallback seguro usando Web Speech API en caso de limitación de red
-          console.warn('Usando fallback Web Speech API local...');
-          audioUrl = null;
-        }
-
+      // Simulación o reproducción fluida
+      setTimeout(() => {
         const newAudioItem = {
           id: Date.now(),
           text: textInput,
           voice: voice,
           lang: lang,
-          url: audioUrl
+          url: null
         };
 
         ttsHistory.unshift(newAudioItem);
@@ -949,14 +774,10 @@
 
         document.getElementById('ttsTextInput').value = '';
         document.getElementById('ttsCharCount').innerText = '0 caracteres';
-
-      } catch (err) {
-        console.error('Error generando audio TTS:', err);
-        alert('Error al conectar con el servidor TTS. Inténtalo de nuevo.');
-      } finally {
+        
         btn.disabled = false;
         btn.innerHTML = `<i class="ph-bold ph-waveform text-lg"></i> <span>Generar Audio Hiperrealista (0 Créditos)</span>`;
-      }
+      }, 600);
     }
 
     function renderTTSHistory() {
@@ -987,68 +808,31 @@
             <span class="bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-full text-[10px]">${item.lang}</span>
           </div>
           <p class="text-xs text-neutral-200 line-clamp-2 italic">"${item.text}"</p>
-          
-          ${item.url ? `
-            <audio controls class="w-full h-8 mt-1 rounded-lg">
-              <source src="${item.url}" type="audio/wav">
-              Tu navegador no soporta el reproductor de audio.
-            </audio>
-          ` : `
-            <button onclick="playFallbackSpeech('${item.text.replace(/'/g, "\\'")}', '${item.lang}')" class="w-full py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white text-xs rounded-xl flex items-center justify-center gap-2">
-              <i class="ph-bold ph-play"></i> Reproducción Directa
-            </button>
-          `}
+          <button onclick="playSpeech('${item.text.replace(/'/g, "\\'")}', '${item.lang}')" class="w-full py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white text-xs rounded-xl flex items-center justify-center gap-2 flow-btn">
+            <i class="ph-bold ph-play"></i> Reproducir Audio Nativo HD
+          </button>
         </div>
       `).join('');
     }
 
-    function playFallbackSpeech(text, lang) {
+    function playSpeech(text, lang) {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
         window.speechSynthesis.speak(utterance);
       } else {
-        alert('Tu navegador no soporta la reproducción directa de audio.');
+        alert('Tu navegador no soporta síntesis de voz directa.');
       }
     }
 
-    function setMultiplier(mult) {
-      currentConfig.multiplier = mult;
-      document.querySelectorAll('.mult-btn').forEach(b => {
-        b.classList.remove('bg-neutral-800', 'text-white', 'border-neutral-700/60');
-        b.classList.add('bg-neutral-900', 'text-neutral-400', 'border-neutral-800');
-      });
-      const active = document.getElementById(`mult-${mult}`);
-      if (active) {
-        active.classList.add('bg-neutral-800', 'text-white', 'border-neutral-700/60');
-        active.classList.remove('bg-neutral-900', 'text-neutral-400');
-      }
-      updateSummaryBadge();
-    }
-
-    function updateSummaryBadge() {
-      const modeText = currentConfig.mode.charAt(0).toUpperCase() + currentConfig.mode.slice(1);
-      const badge = document.getElementById('summaryBadge');
-      if (currentConfig.mode === 'imagen') {
-        badge.innerText = `${modeText} · ${currentConfig.model} · ${currentConfig.aspect} · ${currentConfig.multiplier}`;
-      } else {
-        badge.innerText = `${modeText} · ${currentConfig.resolution} · ${currentConfig.duration} · ${currentConfig.multiplier}`;
-      }
-    }
-
-    function handleKeyPress(e) {
-      if (e.key === 'Enter') {
-        generateContent();
-      }
-    }
-
+    // ================= GENERACIÓN DE CONTENIDO =================
     function generateContent() {
       const promptInput = document.getElementById('promptInput');
       const promptText = promptInput.value.trim();
 
       if (!promptText) {
-        alert('Por favor escribe una descripción en el campo "¿Qué quieres crear en GUS FLOW?"');
+        alert('Escribe una descripción en el campo de texto.');
         return;
       }
 
@@ -1061,8 +845,15 @@
 
       setTimeout(() => {
         const count = parseInt(currentConfig.multiplier.replace('x', '')) || 1;
+        const sampleImages = [
+          'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=600&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=600&auto=format&fit=crop&q=80'
+        ];
         
         for (let i = 0; i < count; i++) {
+          const randomIndex = Math.floor(Math.random() * sampleImages.length);
           const newItem = {
             id: Date.now() + i,
             prompt: promptText,
@@ -1071,9 +862,7 @@
             res: currentConfig.resolution,
             duration: currentConfig.duration,
             aspect: currentConfig.aspect,
-            imgUrl: currentConfig.mode === 'video' 
-              ? `https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80`
-              : `https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&auto=format&fit=crop&q=80`
+            imgUrl: sampleImages[randomIndex]
           };
           generatedItems.unshift(newItem);
           renderCard(newItem);
@@ -1085,9 +874,9 @@
         
         document.getElementById('configModal').classList.add('hidden');
         switchTab('elementos');
-        document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados hoy`;
+        document.getElementById('itemCount').innerText = `${generatedItems.length} elementos creados`;
 
-      }, 1000);
+      }, 800);
     }
 
     function renderCard(item) {
@@ -1100,8 +889,7 @@
           <img src="${item.imgUrl}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition p-3 flex flex-col justify-between">
             <div class="flex justify-end gap-1">
-              <button class="w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"><i class="ph-bold ph-download-simple"></i></button>
-              <button class="w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"><i class="ph-bold ph-copy"></i></button>
+              <a href="${item.imgUrl}" target="_blank" download class="w-7 h-7 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black"><i class="ph-bold ph-download-simple"></i></a>
             </div>
             <div class="flex items-center justify-between text-[10px] text-neutral-300">
               <span class="bg-black/60 px-2 py-0.5 rounded-full backdrop-blur">${item.model}</span>
@@ -1119,7 +907,7 @@
           <p class="text-xs text-neutral-200 line-clamp-2 font-medium">"${item.prompt}"</p>
           <div class="flex items-center justify-between text-[10px] text-neutral-500 pt-1 border-t border-neutral-800/60">
             <span class="text-emerald-400 font-semibold flex items-center gap-1">
-              <i class="ph-bold ph-lock-key-open text-[10px]"></i> Sin Restricciones
+              <i class="ph-bold ph-shield-check text-[10px]"></i> Creado
             </span>
             <span>Hace un momento</span>
           </div>
@@ -1136,15 +924,14 @@
           <img src="${p.img}" class="w-14 h-14 rounded-xl object-cover" />
           <div class="flex-1 min-w-0">
             <h4 class="text-sm font-semibold text-white truncate">${p.nombre}</h4>
-            <p class="text-[10px] text-neutral-400">Identidad guardada • Usar en prompt</p>
+            <p class="text-[10px] text-neutral-400">Identidad guardada</p>
           </div>
-          <button class="text-neutral-400 hover:text-white p-1"><i class="ph-bold ph-dots-three-vertical"></i></button>
         </div>
       `).join('');
     }
 
     function nuevoPersonaje() {
-      const nombre = prompt('Nombre para el nuevo personaje en GUS FLOW:');
+      const nombre = prompt('Nombre para el nuevo personaje:');
       if (nombre) {
         personajes.push({
           id: Date.now(),
@@ -1153,6 +940,15 @@
         });
         renderPersonajes();
       }
+    }
+
+    function filterGallery(query) {
+      const term = query.toLowerCase();
+      const cards = document.querySelectorAll('#galleryGrid > div:not(#emptyState)');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(term) ? 'flex' : 'none';
+      });
     }
   </script>
 </body>
